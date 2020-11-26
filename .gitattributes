@@ -31,3 +31,4 @@
 /thesis/papers/Evaluation/Grad-CAM:
 Visual[[:space:]]Explanations[[:space:]]from[[:space:]]Deep[[:space:]]Networks[[:space:]]via[[:space:]]Gradient-based[[:space:]]Localization filter=lfs diff=lfs merge=lfs -text
 *.dat filter=lfs diff=lfs merge=lfs -text
+/LICENSE filter=lfs diff=lfs merge=lfs -text
