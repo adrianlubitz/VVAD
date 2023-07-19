@@ -37,3 +37,4 @@ Visual[[:space:]]Explanations[[:space:]]from[[:space:]]Deep[[:space:]]Networks[[
 /thesis/papers/Evaluation/Grad-CAM filter=lfs diff=lfs merge=lfs -text
 /thesis/papers/Object[[:space:]]tracking/Object[[:space:]]Tracking filter=lfs diff=lfs merge=lfs -text
 *.iml filter=lfs diff=lfs merge=lfs -text
+/.github/workflows/python-testing filter=lfs diff=lfs merge=lfs -text
