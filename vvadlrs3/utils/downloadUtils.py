@@ -1,10 +1,7 @@
-# System imports
-from pathlib import Path
-import urllib.request
-import bz2
-import errno
-import os
+''' Utils for downloads '''
 
+# System imports
+import urllib.request
 
 # 3rd Party imports
 from tqdm import tqdm
@@ -32,8 +29,9 @@ def download_url(url, output_path):
         *.3gpp files.
 
     Args:
-        url (String): URL to video to download
-        output_path (String): Path to directory in which the downloaded file should be saved
+        url (str): URL to video to download
+        output_path (str): Path to directory in which the downloaded file should be
+            saved
     """
     with DownloadProgressBar(unit='B', unit_scale=True,
                              miniters=1, desc=url.split('/')[-1]) as t:
