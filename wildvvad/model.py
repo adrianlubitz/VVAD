@@ -1,5 +1,5 @@
 import keras
-from keras.layers import Dropout, Bidirectional, Activation, Dense
+from keras.layers import Dropout, Bidirectional, Activation, Dense, Flatten
 from keras.layers.normalization import BatchNormalization
 from keras.layers.recurrent import LSTM
 from keras.layers.wrappers import TimeDistributed
@@ -9,17 +9,17 @@ from keras.models import Sequential
 class LAND_LSTM_Model:
     """
         Build Bidirectional LSTM Model based on the WildVVAD description.
-            Each video sample is mapped onto a sequence of vectors,
-            where each vector contains the frontal 3D coordinates of the 68 landmarks.
-            This sequence is then fed into a bidirectional LSTM, [16], in which fully
-            connected layers share the parameters across time. We employ
-            ReLu activations and add batch normalization layers [17]
-            between bidirectional LSTM layers.
+        Each video sample is mapped onto a sequence of vectors,
+        where each vector contains the frontal 3D coordinates of the 68 landmarks.
+        This sequence is then fed into a bidirectional LSTM, [16], in which fully
+        connected layers share the parameters across time. We employ
+        ReLu activations and add batch normalization layers [17]
+        between bidirectional LSTM layers.
     """
 
     @staticmethod
-    def build_land_lstm(input_shape, num_td_dense_layers=2,
-                        num_blstm_layers=2, dense_dims=512) -> (Sequential, str):
+    def build_land_lstm(input_shape, num_td_dense_layers=1,
+                        num_blstm_layers=2, dense_dims=96) -> (Sequential, str):
         """Building model
 
         Args:
@@ -32,39 +32,30 @@ class LAND_LSTM_Model:
             localModel (Sequential()): Returns created Land-LSTM model
             modelName (String): Model name with all layer and dimension information
         """
-        land_lstm_model = Sequential()
-        # ToDo: Input layer needed?
+        land_lstm_model = Sequential(name="LandLSTM")
 
-        # Two fully connected layers
-        # ToDo unclear about input shape like in
-        #   add the convnet with (5, 112, 112, 3) shape
-        #   model.add(TimeDistributed(convnet, input_shape=shape))
-        for i in range(num_td_dense_layers - 1):
-            land_lstm_model.add(TimeDistributed(Dense(dense_dims),
-                                                input_shape=input_shape))
+        # Flatten at first (providing original feature data)
+        land_lstm_model.add(TimeDistributed(
+            Flatten(input_shape=(input_shape[-2], input_shape[-1]))))
 
-        # model.add(Bidirectional(LSTM(64, activation='relu')))
-        forward_layer = LSTM(10, activation='relu', return_sequences=True)
-        backward_layer = LSTM(1, activation='relu', return_sequences=True,
-                              go_backwards=True)
-        for j in range(num_blstm_layers - 1):
-            land_lstm_model.add(Bidirectional(layer=forward_layer,
-                                              backward_layer=backward_layer,
-                                              input_shape=(5, 10)))
+        # Add dense layer with input shape
+        land_lstm_model.add(TimeDistributed(Dense(dense_dims, activation='relu'),
+                                            input_shape=input_shape))
+        for i in range(num_td_dense_layers):
+            land_lstm_model.add(TimeDistributed(Dense(dense_dims, activation='relu')))
 
-            # Batch normalization between the LSTM layers
-            if j < num_blstm_layers:
+        for j in range(num_blstm_layers):
+            land_lstm_model.add(Bidirectional(
+                layer=keras.layers.LSTM(93, activation='relu', return_sequences=True)))
+            if j < num_blstm_layers - 1:
                 land_lstm_model.add(BatchNormalization())
-        land_lstm_model.add(Dropout(0.5))
 
-        # ToDo: model.add(Dense(1, activation="softmax"))?
-        # Alternative:
-        land_lstm_model.add(Activation('softmax'))
-        land_lstm_model.compile(loss="binary_crossentropy",
-                                optimizer='sgd', metrics=["accuracy"])
+        # Flatten again to reduce dimensionality
+        land_lstm_model.add(Flatten())
 
-        model_name = 'Land-LSTM_' + \
-                     str(num_td_dense_layers) + '_' + str(num_blstm_layers)
+        # Opposite to paper: Use 'sigmoid' activation for binary classification
+        land_lstm_model.add(Dense(1, activation='sigmoid'))
+
         return land_lstm_model, model_name
 
 
