@@ -56,7 +56,7 @@ class LAND_LSTM_Model:
         # Opposite to paper: Use 'sigmoid' activation for binary classification
         land_lstm_model.add(Dense(1, activation='sigmoid'))
 
-        return land_lstm_model, model_name
+        return land_lstm_model
 
 
 if __name__ == "__main__":
