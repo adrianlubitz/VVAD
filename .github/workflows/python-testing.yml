@@ -41,7 +41,7 @@ jobs:
       - name: perform unit tests
         run: |
           # run unittests for data and models
-          python -m unittest discover -s test.unit-tests.data-and-models -v
+          python -m unittest discover -s test.unit-tests.utils -v
       - name: Generate Report
         run: |
           pip install coverage
