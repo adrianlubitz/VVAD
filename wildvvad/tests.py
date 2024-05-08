@@ -6,7 +6,6 @@ from sample import Sample
 def main():
     handler = Sample()
     sample = handler.load_sample_from_disk("./videos")
-    mean_euclidean = []
 
     video_sample = []
     idx = 0

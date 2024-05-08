@@ -56,19 +56,17 @@ class downloadUtils:
         """
 
         file_exists = False
-        with DownloadProgressBar(unit='B', unit_scale=True,
-                                 miniters=1, desc=url.split('/')[-1]) as t:
-            while not file_exists:
-                try:
-                    with urllib.request.urlopen(url) as response, open(
-                            os.path.join(folder_name, file_name), 'wb') as out_file:  #
-                        file_exists = True
-                        shutil.copyfileobj(response, out_file)
-                        with zipfile.ZipFile(
-                                os.path.join(folder_name, file_name)) as zf:
-                            zf.extractall()
-                except FileNotFoundError:
-                    os.mkdir(folder_name)
+        while not file_exists:
+            try:
+                with urllib.request.urlopen(url) as response, open(
+                        os.path.join(folder_name, file_name), 'wb') as out_file:  #
+                    file_exists = True
+                    shutil.copyfileobj(response, out_file)
+                    with zipfile.ZipFile(
+                            os.path.join(folder_name, file_name)) as zf:
+                        zf.extractall()
+            except FileNotFoundError:
+                os.mkdir(folder_name)
 
 
 class DownloadProgressBar(tqdm):

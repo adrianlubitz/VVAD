@@ -1,7 +1,6 @@
 # import the necessary packages
 from collections import OrderedDict
 import numpy as np
-import cv2
 
 # define a dictionary that maps the indexes of the facial
 # landmarks to specific face regions

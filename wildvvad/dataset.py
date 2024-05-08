@@ -5,7 +5,6 @@ import random
 import numpy as np
 
 from wildvvad.sample import Sample
-from wildvvad.utils.kerasUtils import kerasUtils
 
 
 class dataSet:
@@ -48,7 +47,6 @@ class dataSet:
                         file_path=os.path.join(filename))
 
                     video_sample = []
-                    idx = 0
 
                     for image in current_sample:
                         preds = self.sample.get_face_landmark_from_sample(image)[-1]

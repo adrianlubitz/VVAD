@@ -63,8 +63,8 @@ class Sample:
         frame_num = int(vid_obj.get(cv2.CAP_PROP_FRAME_COUNT))
         vid_fps = vid_obj.get(cv2.CAP_PROP_FPS)
 
-        label = True
-        config = {"fps": vid_fps}
+        # label = True
+        # config = {"fps": vid_fps}
         print("FPS are ", vid_fps)
 
         success = vid_obj.grab()
@@ -132,12 +132,12 @@ class Sample:
 
         # 3D-Plot
         ax = fig.add_subplot(1, 2, 2, projection='3d')
-        surf = ax.scatter(preds[:, 0] * 1.2,
-                          preds[:, 1],
-                          preds[:, 2],
-                          c='cyan',
-                          alpha=1.0,
-                          edgecolor='b')
+        #surf = ax.scatter(preds[:, 0] * 1.2,
+        #                  preds[:, 1],
+        #                  preds[:, 2],
+        #                  c='cyan',
+        #                  alpha=1.0,
+        #                  edgecolor='b')
 
         for pred_type in pred_types.values():
             ax.plot3D(preds[pred_type.slice, 0] * 1.2,
@@ -181,10 +181,10 @@ class Sample:
 
         # compute center (x, y, z)-coordinates (i.e., the median point)
         # between the two eyes in the input image
-        eyes_center = ((left_eye_center[0] + right_eye_center[0]) // 2,
-                       (left_eye_center[1] + right_eye_center[1]) // 2,
-                       (left_eye_center[2] + right_eye_center[2]) // 2
-                       )
+        # eyes_center = ((left_eye_center[0] + right_eye_center[0]) // 2,
+        #              (left_eye_center[1] + right_eye_center[1]) // 2,
+        #                (left_eye_center[2] + right_eye_center[2]) // 2
+        #                )
 
         # First, rotate in X-Z
         # Get Angles
@@ -199,22 +199,22 @@ class Sample:
         # the ratio of the distance between eyes in the *current*
         # image to the ratio of distance between eyes in the
         # *desired* image
-        ## dist = np.sqrt((dX ** 2) + (dY ** 2))
-        ## desiredDist = (desiredRightEyeX - self.desiredLeftEye[0])
-        ## desiredDist *= self.desiredFaceWidth
-        ## scale = desiredDist / dist
+        # dist = np.sqrt((dX ** 2) + (dY ** 2))
+        # desiredDist = (desiredRightEyeX - self.desiredLeftEye[0])
+        # desiredDist *= self.desiredFaceWidth
+        # scale = desiredDist / dist
 
-        eyes_center_x = ((left_eye_center[1] + right_eye_center[1]) // 2,
-                         (left_eye_center[2] + right_eye_center[2]) // 2)
-        eyes_center_y = ((left_eye_center[0] + right_eye_center[0]) // 2,
-                         (left_eye_center[2] + right_eye_center[2]) // 2)
-        eyes_center_z = ((left_eye_center[0] + right_eye_center[0]) // 2,
-                         (left_eye_center[1] + right_eye_center[1]) // 2)
+        # eyes_center_x = ((left_eye_center[1] + right_eye_center[1]) // 2,
+        #                  (left_eye_center[2] + right_eye_center[2]) // 2)
+        # eyes_center_y = ((left_eye_center[0] + right_eye_center[0]) // 2,
+        #                  (left_eye_center[2] + right_eye_center[2]) // 2)
+        # eyes_center_z = ((left_eye_center[0] + right_eye_center[0]) // 2,
+        #                  (left_eye_center[1] + right_eye_center[1]) // 2)
 
         # grab the rotation matrix for rotating and scaling the face
-        M_x = cv2.getRotationMatrix2D(eyes_center_x, angle_x, 1.0)
-        M_y = cv2.getRotationMatrix2D(eyes_center_y, angle_y, 1.0)
-        M_z = cv2.getRotationMatrix2D(eyes_center_z, angle_z, 1.0)
+        # M_x = cv2.getRotationMatrix2D(eyes_center_x, angle_x, 1.0)
+        # M_y = cv2.getRotationMatrix2D(eyes_center_y, angle_y, 1.0)
+        # M_z = cv2.getRotationMatrix2D(eyes_center_z, angle_z, 1.0)
 
         # Rotation Matrix 3x3
         R = pcd.get_rotation_matrix_from_xyz((np.deg2rad(angle_x), np.deg2rad(angle_y),
@@ -225,8 +225,8 @@ class Sample:
         center_z = (left_eye_center[2] + right_eye_center[2]) // 2
         pcd = pcd.rotate(R, center=(center_x, center_y, center_z))
         # o3d.visualization.draw_geometries([pcd])
-        o3d.geometry.Geometry
-        o3d.utility.Matrix3dVector
+        # o3d.geometry.Geometry
+        # o3d.utility.Matrix3dVector
 
         return np.asarray(pcd.points)
 
@@ -240,15 +240,15 @@ class Sample:
         # M[1, 2] += (tY - eyes_center_xz[1])
 
         # apply the affine transformation
-        (w, h) = (self.desiredFaceWidth, self.desiredFaceHeight)
-        output = cv2.warpAffine(image, M, (w, h),
-                                flags=cv2.INTER_CUBIC)
+        # (w, h) = (self.desiredFaceWidth, self.desiredFaceHeight)
+        # output = cv2.warpAffine(image, M, (w, h),
+        #                         flags=cv2.INTER_CUBIC)
 
         # transformed_point_cloud = rotation_matrix @ point_cloud_array +
         # translation_vector
 
         # return the aligned face
-        return output
+        # return output
 
 
 def angle(v1, v2, acute):

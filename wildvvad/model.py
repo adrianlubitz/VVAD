@@ -1,7 +1,6 @@
 import keras
-from keras.layers import Dropout, Bidirectional, Activation, Dense, Flatten
+from keras.layers import Bidirectional, Dense, Flatten
 from keras.layers.normalization import BatchNormalization
-from keras.layers.recurrent import LSTM
 from keras.layers.wrappers import TimeDistributed
 from keras.models import Sequential
 
