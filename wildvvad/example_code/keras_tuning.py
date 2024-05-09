@@ -2,6 +2,7 @@
 import os
 
 import keras
+from kerastuner.tuners import RandomSearch
 import numpy as np
 import tensorflow as tf
 
