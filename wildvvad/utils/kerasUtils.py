@@ -28,3 +28,7 @@ class kerasUtils:
         )
 
         return X_train, X_test, y_train, y_test
+
+    def saveHistory(history, path):
+        with open(path, mode='w') as histFile:
+            hist_df.to_json(histFile)

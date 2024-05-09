@@ -33,3 +33,27 @@ def shape_to_np(shape, dtype="int"):
 
     # return the list of (x, y, z)-coordinates
     return coords
+
+def _normalize(arr):
+    """ Normalizes the features of the array to [-1, 1].
+
+        Args:
+            arr (numpy array): array with features to normalize
+
+        Returns:
+            arr_norm (numpy array): numpy array with features normalized to [-1, 1]
+    """
+    arrMax = np.max(arr)
+    arrMin = np.min(arr)
+    absMax = np.max([np.abs(arrMax), np.abs(arrMin)])
+    return arr / absMax
+
+def shift_to_positive_range(p_cloud):
+    # Find the minimum values along each axis
+    min_values = np.min(p_cloud, axis=0)
+
+    # Subtract the minimum values from all points
+    shifted_pcloud = p_cloud - min_values
+
+    return shifted_pcloud
+

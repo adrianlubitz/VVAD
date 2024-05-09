@@ -12,7 +12,6 @@ import vg
 
 import open3d as o3d
 
-
 class Sample:
     def __init__(self):
         pass
@@ -228,7 +227,22 @@ class Sample:
         # o3d.geometry.Geometry
         # o3d.utility.Matrix3dVector
 
-        return np.asarray(pcd.points)
+        first_rotation_state = np.asarray(pcd.points)
+
+        # Go into second rotation to align wrongly oriented faces
+        left_eye_pts = first_sample[l_start:l_end]
+        right_eye_pts = first_sample[r_start:r_end]
+
+        # compute center of mass for each eye column wise
+        left_eye_center = left_eye_pts.mean(axis=0).astype("float")
+        right_eye_center = right_eye_pts.mean(axis=0).astype("float")
+
+        point_cloud = rotate_face_landmarks_V2(first_sample)
+        aligned_point_cloud = rotate_face_landmarks(point_cloud)
+
+        shifted_point_cloud = shift_to_positive_range(aligned_point_cloud)
+
+        return shifted_point_cloud
 
         # transformed_point_cloud = rotation_matrix @ point_cloud_array +
         # translation_vector
