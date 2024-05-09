@@ -31,4 +31,4 @@ class kerasUtils:
 
     def saveHistory(history, path):
         with open(path, mode='w') as histFile:
-            hist_df.to_json(histFile)
+            history.to_json(histFile)

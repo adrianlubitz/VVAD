@@ -8,6 +8,7 @@ import numpy as np
 import face_alignment
 from matplotlib import pyplot as plt
 from utils import utils
+from utils import faceFeatureUtils
 import vg
 
 import open3d as o3d
@@ -230,17 +231,17 @@ class Sample:
         first_rotation_state = np.asarray(pcd.points)
 
         # Go into second rotation to align wrongly oriented faces
-        left_eye_pts = first_sample[l_start:l_end]
-        right_eye_pts = first_sample[r_start:r_end]
+        left_eye_pts = first_rotation_state[l_start:l_end]
+        right_eye_pts = first_rotation_state[r_start:r_end]
 
         # compute center of mass for each eye column wise
         left_eye_center = left_eye_pts.mean(axis=0).astype("float")
         right_eye_center = right_eye_pts.mean(axis=0).astype("float")
 
-        point_cloud = rotate_face_landmarks_V2(first_sample)
-        aligned_point_cloud = rotate_face_landmarks(point_cloud)
+        point_cloud = faceFeatureUtils.rotate_face_landmarks(first_rotation_state)
+        aligned_point_cloud = faceFeatureUtils.orient_face_landmarks(point_cloud)
 
-        shifted_point_cloud = shift_to_positive_range(aligned_point_cloud)
+        shifted_point_cloud = utils.shift_to_positive_range(aligned_point_cloud)
 
         return shifted_point_cloud
 
