@@ -9,7 +9,6 @@ import face_alignment
 from matplotlib import pyplot as plt
 from utils import utils
 from utils import faceFeatureUtils
-import vg
 
 import open3d as o3d
 
