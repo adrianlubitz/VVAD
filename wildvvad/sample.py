@@ -161,7 +161,6 @@ class Sample:
         dX = right_eye_center[0] - left_eye_center[0]
         dY = right_eye_center[1] - left_eye_center[1]
         dZ = right_eye_center[2] - left_eye_center[2]
-        vector_angle = vg.angle(right_eye_center, left_eye_center)
 
         # First, rotate in X-Z
         # Get Angles
