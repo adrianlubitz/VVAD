@@ -26,6 +26,7 @@ humanAccuracyTest/assets/*
 *.cb
 *.cb2
 .*.lb
+*.mp4
 
 ## Intermediate documents:
 *.dvi

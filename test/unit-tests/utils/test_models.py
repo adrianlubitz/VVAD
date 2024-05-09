@@ -1,8 +1,13 @@
 import unittest
+from unittest.mock import Mock
 
 import keras
+from tensorflow.keras.layers import Dense, TimeDistributed, Flatten, Bidirectional, LSTM
+from tensorflow.keras.losses import BinaryCrossentropy
+from tensorflow.keras.models import Sequential
+import tensorflow as tf
 
-from wildvvad.model import LAND_LSTM_Model
+from wildvvad.utils.model import LAND_LSTM_Model
 
 
 class TestModelUtils(unittest.TestCase):
@@ -12,6 +17,11 @@ class TestModelUtils(unittest.TestCase):
 
     def setUp(self):
         self.input_shape = (68, 38, 3)
+        self.num_td_dense_layers = 2
+        self.num_blstm_layers = 3
+        self.hp = Mock()  # Create a mock object for hp
+        # Mock the Int method to return a fixed value
+        self.hp.Int.return_value = 128  # Example fixed value
 
     def test_model_creation(self):
         model = LAND_LSTM_Model.build_land_lstm(self.input_shape)
