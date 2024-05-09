@@ -2,10 +2,6 @@ import unittest
 from unittest.mock import Mock
 
 import keras
-from tensorflow.keras.layers import Dense, TimeDistributed, Flatten, Bidirectional, LSTM
-from tensorflow.keras.losses import BinaryCrossentropy
-from tensorflow.keras.models import Sequential
-import tensorflow as tf
 
 from wildvvad.utils.model import LAND_LSTM_Model
 
