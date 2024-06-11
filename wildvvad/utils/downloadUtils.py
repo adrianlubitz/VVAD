@@ -22,16 +22,18 @@ class downloadUtils:
         self.silent_videos_file = 'silent_videos.zip'
         self.silent_videos_folder = 'silent_videos'
 
-    def download_and_save_speaking_videos(self) -> None:
+    @staticmethod
+    def download_and_save_speaking_videos() -> None:
         """
         This method will download, save, and extract all speaking_videos videos from
         the WildVVAD data set.
         """
 
         print("Download speaking_videos videos.")
-        self.download_and_save_videos(self.speaking_videos_url,
+        download_and_save_videos(self.speaking_videos_url,
                                       self.speaking_videos_folder,
                                       self.speaking_videos_file)
+
 
     def download_and_save_silent_videos(self) -> None:
         """

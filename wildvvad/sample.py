@@ -96,9 +96,10 @@ class Sample:
 
         return fa.get_landmarks(image)
 
-    def visualize_3d_landmarks(self, image, landmarks, landmarks_test):
+    @staticmethod
+    def visualize_3d_landmarks(image, landmarks, landmarks_test):
         if not landmarks_test:
-            preds = self.get_face_landmark_from_sample(image)[-1]
+            preds = get_face_landmark_from_sample(image)[-1]
         else:
             preds = landmarks
         # 2D-Plot
@@ -170,8 +171,6 @@ class Sample:
         left_eye_center = left_eye_pts.mean(axis=0).astype("float")
         right_eye_center = right_eye_pts.mean(axis=0).astype("float")
 
-        # print("Center", left_eye_center)
-
         # compute the angle between the eye centroids
         dX = right_eye_center[0] - left_eye_center[0]
         dY = right_eye_center[1] - left_eye_center[1]
@@ -179,42 +178,12 @@ class Sample:
         vector_angle = vg.angle(right_eye_center, left_eye_center)
         print("Angle is", vector_angle)
 
-        # compute center (x, y, z)-coordinates (i.e., the median point)
-        # between the two eyes in the input image
-        # eyes_center = ((left_eye_center[0] + right_eye_center[0]) // 2,
-        #              (left_eye_center[1] + right_eye_center[1]) // 2,
-        #                (left_eye_center[2] + right_eye_center[2]) // 2
-        #                )
-
         # First, rotate in X-Z
         # Get Angles
         angle_x = np.degrees(np.arctan2(dZ, dY)) - 90
         angle_y = np.degrees(np.arctan2(dZ, dX)) - 180
         angle_z = np.degrees(np.arctan2(dY, dX)) - 180
 
-        # compute the desired right eye x-coordinate based on the
-        # desired x-coordinate of the left eye
-        ## desiredRightEyeX = 1.0 - self.desiredLeftEye[0]
-        # determine the scale of the new resulting image by taking
-        # the ratio of the distance between eyes in the *current*
-        # image to the ratio of distance between eyes in the
-        # *desired* image
-        # dist = np.sqrt((dX ** 2) + (dY ** 2))
-        # desiredDist = (desiredRightEyeX - self.desiredLeftEye[0])
-        # desiredDist *= self.desiredFaceWidth
-        # scale = desiredDist / dist
-
-        # eyes_center_x = ((left_eye_center[1] + right_eye_center[1]) // 2,
-        #                  (left_eye_center[2] + right_eye_center[2]) // 2)
-        # eyes_center_y = ((left_eye_center[0] + right_eye_center[0]) // 2,
-        #                  (left_eye_center[2] + right_eye_center[2]) // 2)
-        # eyes_center_z = ((left_eye_center[0] + right_eye_center[0]) // 2,
-        #                  (left_eye_center[1] + right_eye_center[1]) // 2)
-
-        # grab the rotation matrix for rotating and scaling the face
-        # M_x = cv2.getRotationMatrix2D(eyes_center_x, angle_x, 1.0)
-        # M_y = cv2.getRotationMatrix2D(eyes_center_y, angle_y, 1.0)
-        # M_z = cv2.getRotationMatrix2D(eyes_center_z, angle_z, 1.0)
 
         # Rotation Matrix 3x3
         R = pcd.get_rotation_matrix_from_xyz((np.deg2rad(angle_x), np.deg2rad(angle_y),
@@ -224,31 +193,8 @@ class Sample:
         center_y = (left_eye_center[1] + right_eye_center[1]) // 2
         center_z = (left_eye_center[2] + right_eye_center[2]) // 2
         pcd = pcd.rotate(R, center=(center_x, center_y, center_z))
-        # o3d.visualization.draw_geometries([pcd])
-        # o3d.geometry.Geometry
-        # o3d.utility.Matrix3dVector
 
         return np.asarray(pcd.points)
-
-        # transformed_point_cloud = rotation_matrix @ point_cloud_array +
-        # translation_vector
-
-        # update the translation component of the matrix
-        # tX = self.desiredFaceWidth * 0.5
-        # tY = self.desiredFaceHeight * self.desiredLeftEye[1]
-        # M[0, 2] += (tX - eyes_center_xz[0])
-        # M[1, 2] += (tY - eyes_center_xz[1])
-
-        # apply the affine transformation
-        # (w, h) = (self.desiredFaceWidth, self.desiredFaceHeight)
-        # output = cv2.warpAffine(image, M, (w, h),
-        #                         flags=cv2.INTER_CUBIC)
-
-        # transformed_point_cloud = rotation_matrix @ point_cloud_array +
-        # translation_vector
-
-        # return the aligned face
-        # return output
 
 
 def angle(v1, v2, acute):

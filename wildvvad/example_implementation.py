@@ -1,3 +1,10 @@
+"""
+This code was used as an example implementation to verify
+the functionality of the methods while development.
+
+It can function as an example still to get used to the data types and used methods.
+"""
+
 import numpy as np
 
 from sample import Sample
