@@ -6,7 +6,8 @@ class kerasUtils:
         pass
 
     @staticmethod
-    def train_test_split(dataset: list) -> (list, list, list, list):
+    def train_test_split(dataset: list, test_size: float = 0.2,
+                         random_state: int = 42) -> (list, list, list, list):
         """
         Uses the dataset to split into x_train, x_test, y_train, and y_test.
 
@@ -24,11 +25,18 @@ class kerasUtils:
             print(f"Current ds y is {y}")
 
         X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=0.2, random_state=42
+            X, y, test_size, random_state
         )
 
         return X_train, X_test, y_train, y_test
 
     def saveHistory(history, path):
+        """
+        Save a model's training history as a json file in given path
+
+        Args:
+            history (df) : Pandas dataframe containing training history of a model
+            path (string): path to save the history to
+        """
         with open(path, mode='w') as histFile:
             history.to_json(histFile)

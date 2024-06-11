@@ -1,28 +1,19 @@
 # import the necessary packages
 from collections import OrderedDict
 import numpy as np
-
-# define a dictionary that maps the indexes of the facial
-# landmarks to specific face regions
-
-# For dlib’s 68-point facial landmark detector:
-FACIAL_LANDMARKS_68 = OrderedDict([
-    ("mouth", (48, 68)),
-    ("inner_mouth", (60, 68)),
-    ("right_eyebrow", (17, 22)),
-    ("left_eyebrow", (22, 27)),
-    ("right_eye", (36, 42)),
-    ("left_eye", (42, 48)),
-    ("nose", (27, 36)),
-    ("jaw", (0, 17))
-])
-
-# in order to support legacy code, we'll default the indexes to the
-# 68-point model
-FACIAL_LANDMARKS = FACIAL_LANDMARKS_68
+from faceFeatureUtils import FACIAL_LANDMARKS
 
 
 def shape_to_np(shape, dtype="int"):
+    """
+    Converts the given array into an np array with x, y, and z coordinates
+
+    Args:
+        shape (list): list of coordinates
+    Returns
+        coords (np array): numpy array with x, y, and z values
+
+    """
     # initialize the list of (x, y, z)-coordinates
     coords = np.zeros((len(shape), 3), dtype=dtype)
 
@@ -49,6 +40,16 @@ def _normalize(arr):
     return arr / absMax
 
 def shift_to_positive_range(p_cloud):
+    """
+    Shifts all values of a multidimensional point cloud into the positive range of
+    values
+
+    Args:
+          p_cloud (np array): multidimensional point cloud
+    Returns:
+          shifted_cloud (np array): Point cloud shifted to positive value range along
+          axis = 0
+    """
     # Find the minimum values along each axis
     min_values = np.min(p_cloud, axis=0)
 

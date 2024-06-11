@@ -1,4 +1,3 @@
-# import
 import numpy as np
 from collections import OrderedDict
 
@@ -19,16 +18,53 @@ FACIAL_LANDMARKS_68 = OrderedDict([
 FACIAL_LANDMARKS = FACIAL_LANDMARKS_68
 
 def translate_point_cloud(point_cloud, translation_vector):
+    """
+    Complete multidimensional point cloud is translated by a fixed vector
+
+    Args:
+        point_cloud(np array): multidimensional point cloud as numpy array
+        translation_vector(np array): translation vector, dimension must fit
+    Returns:
+        translated_point_cloud (np array): translated point cloud as np array
+
+    """
     return point_cloud - translation_vector
 
 
 def rotate_point_cloud_matrix(point_cloud, rotation_matrix):
+    """
+    Rotates a multidimensional point cloud around a rotation matrix T
+
+    Args:
+        point_cloud(np array): multidimensional point cloud as numpy array
+        rotation_matrix(np array): rotation matrix, dimension must fit
+    Returns:
+        rotated_point_cloud (np array): Rotated point cloud as np array
+
+    """
     return np.dot(point_cloud, rotation_matrix.T)
 
 def compute_centroid(points):
+    """
+    Computes controid of multiple points
+
+    Args:
+        points(np array): point cloud
+    Returns:
+        centroid(np array): position values of the centroid
+    """
     return np.mean(points, axis=0)
 
 def compute_rotation_angle(nose_bridge_landmarks):
+    """
+    Computes the rotation angle of the nose bridge of facial landmarks to the z axis
+
+    Args:
+        nose_bridge_landmarks (np array): position vectors of the nose bridge landmarks
+    Returns:
+        angle (float): Angle between node bridge and horizontal axis
+
+    """
     # Compute the vector between the two nose bridge landmarks
     vector = nose_bridge_landmarks[1] - nose_bridge_landmarks[0]
 
@@ -38,6 +74,16 @@ def compute_rotation_angle(nose_bridge_landmarks):
     return angle
 
 def rotate_point_cloud_angle(points, angle):
+    """
+    Rotate point cloud around an angle in x-y-plane
+
+    Args:
+        points (np array): three dimensional point cloud of landmarks
+        angle (float): Angle to rotate
+    Returns:
+        rotated_points (np array): point cloud rotated around angle in x-y-plane
+
+    """
     # Define rotation matrix
     rotation_matrix = np.array([[np.cos(angle), -np.sin(angle), 0],
                                  [np.sin(angle), np.cos(angle), 0],
@@ -49,6 +95,16 @@ def rotate_point_cloud_angle(points, angle):
     return rotated_points
 
 def orient_face_landmarks(face_landmarks):
+    """
+    The raw facial landmarks will be oriented in a way that the face should be shown
+    from the front on the x-y-plane as good as possible
+
+    Args:
+        face_landmarks (np array): three dimensional facial landmarks as predicted
+    Returns:
+        aligned_landmarks (np array): Aligned three dimensional facial landmarks
+
+    """
     # Flatten the face landmarks into a single array
     flat_landmarks = face_landmarks.reshape(-1, 3)
 
@@ -77,6 +133,14 @@ def orient_face_landmarks(face_landmarks):
     return rotated_face_landmarks
 
 def rotate_face_landmarks(face_landmarks):
+    """
+    Rotate face landmarks
+        Args:
+            face_landmarks (np array): three dimensional facial landmarks as predicted
+    Returns:
+        rotated_landmarks (np array): Rotated three dimensional facial landmarks
+
+    """
     # Flatten the face landmarks into a single array
     flat_landmarks = face_landmarks.reshape(-1, 3)
 
@@ -103,6 +167,15 @@ def rotate_face_landmarks(face_landmarks):
     return rotated_face_landmarks
 
 def calculate_rotation_matrix(axis, theta):
+    """
+    Calculated rotation matrix from an axis and an angle
+
+    Args:
+        axis: rotation axis
+        theta: rotation angle
+    Returns:
+        rotation_matrix: Resulting rotation matrix from axis and angle theta
+    """
     axis = axis / np.linalg.norm(axis)
     a = np.cos(theta / 2.0)
     b, c, d = -axis * np.sin(theta / 2.0)
@@ -114,6 +187,14 @@ def calculate_rotation_matrix(axis, theta):
 
 
 def align_face_to_z_axis(point_cloud):
+    """
+    Alignes a three dimensional face to the z axis of a cartesian space
+
+    Args:
+        point_cloud (np array): three dimensional face landmarks
+    Returns:
+        aligned_point_cloud (np array): Newly aligned face landmarks to the z axis
+    """
     # Find the indices for the right and left eye corners
     right_eye_index = 36
     left_eye_index = 45
