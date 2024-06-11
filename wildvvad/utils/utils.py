@@ -1,7 +1,5 @@
 # import the necessary packages
-from collections import OrderedDict
 import numpy as np
-from faceFeatureUtils import FACIAL_LANDMARKS
 
 
 def shape_to_np(shape, dtype="int"):

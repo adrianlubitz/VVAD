@@ -67,7 +67,7 @@ class TestModelUtils(unittest.TestCase):
         dense_dims = 96
         if num_td_dense_layers < 0 or num_blstm_layers < 0:
             with self.assertRaises(ValueError):
-                LAND_LSTM_Model.create_land_lstm(self.input_shape,
+               LAND_LSTM_Model.create_land_lstm(self.input_shape,
                                                  num_td_dense_layers,
                                                  num_blstm_layers,
                                                  dense_dims)
@@ -77,17 +77,17 @@ class TestModelUtils(unittest.TestCase):
                                                      num_blstm_layers,
                                                      dense_dims)
 
-        # Check time-distributed dense layers
-        td_dense_layers = [layer for layer in model.layers if
-                           isinstance(layer, keras.layers.TimeDistributed)]
-        self.assertEqual(len(td_dense_layers), num_td_dense_layers + 2,
-                         "Incorrect number of TimeDistributed layers")
+            # Check time-distributed dense layers
+            td_dense_layers = [layer for layer in model.layers if
+                               isinstance(layer, keras.layers.TimeDistributed)]
+            self.assertEqual(len(td_dense_layers), num_td_dense_layers + 2,
+                             "Incorrect number of TimeDistributed layers")
 
-        # Check bidirectional LSTM layers
-        blstm_layers = [layer for layer in model.layers if
-                        isinstance(layer, keras.layers.Bidirectional)]
-        self.assertEqual(len(blstm_layers), num_blstm_layers,
-                         "Incorrect number of Bidirectional LSTM layers")
+            # Check bidirectional LSTM layers
+            blstm_layers = [layer for layer in model.layers if
+                            isinstance(layer, keras.layers.Bidirectional)]
+            self.assertEqual(len(blstm_layers), num_blstm_layers,
+                             "Incorrect number of Bidirectional LSTM layers")
 
     def test_layer_connections(self):
         """
