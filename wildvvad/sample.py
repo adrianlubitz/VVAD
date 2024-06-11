@@ -90,13 +90,32 @@ class Sample:
 
     @staticmethod
     def get_face_landmark_from_sample(image):
+        """
+        Returns the calculated 68 3d facial landmarks from the provided image
+        
+        Args:
+            image (cv2): Image file from current sample's frame
+        Returns:
+            landmarks (numpy array): Array of 3 dimensional facial landmarks, if
+                face was detected
+        """
         fa = face_alignment.FaceAlignment(face_alignment.LandmarksType.THREE_D,
                                           flip_input=False, device='cpu')
 
         return fa.get_landmarks(image)
 
-    def visualize_3d_landmarks(self, image, landmarks, landmarks_test):
-        if not landmarks_test:
+    def visualize_3d_landmarks(self, image, landmarks, landmarks_available):
+        """
+        Method to plot the calculated 3 dimensional landmarks. It will plot the image
+        next to the detected landmarks for a direct comparison.
+        
+        Args:
+            image (cv2): Image data to compare to calculated landmarks
+            landmarks (numpy array): Calculated landmarks from the provided image
+            landmarks_test (bool): If false: generate landmarks from image within this
+                method
+        """
+        if not landmarks_available:
             preds = self.get_face_landmark_from_sample(image)[-1]
         else:
             preds = landmarks
@@ -142,6 +161,15 @@ class Sample:
         plt.show()
 
     def align_3d_face(self, landmarks_prediction):
+        """
+        Align 3 dimensional landmarks so that the face is aligned to the x-y-plane
+        
+        Args:
+            landmarks_prediction (numpy array): Calculated landmarks from an image
+        Returns:
+            aligned_landmarks (numpy array): Altered landmarks with aligned facial
+                orientation
+        """
         # extract the left and right eye (x, y)-coordinates
         (l_start, l_end) = utils.FACIAL_LANDMARKS["left_eye"]
         (r_start, r_end) = utils.FACIAL_LANDMARKS["right_eye"]
@@ -192,6 +220,8 @@ class Sample:
         shifted_point_cloud = utils.shift_to_positive_range(aligned_point_cloud)
 
         return shifted_point_cloud
+
+# Ressources:
 
 # https://pyimagesearch.com/2017/05/22/face-alignment-with-opencv-and-python/
 # https://stackoverflow.com/questions/47475976/face-alignment-in-video-using-python

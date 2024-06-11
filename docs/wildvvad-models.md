@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Model operations
 
 ::: wildvvad.model

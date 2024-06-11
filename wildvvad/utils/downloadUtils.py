@@ -6,6 +6,10 @@ from tqdm import tqdm
 
 
 class downloadUtils:
+    """
+    Helper function that are used when it comes to downloading sample files
+
+    """
     def __init__(self):
         """
         Initializing the URLs and file names for the WildVVAD video files to download

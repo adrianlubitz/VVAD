@@ -17,7 +17,7 @@ class LAND_LSTM_Model:
     """
 
     @staticmethod
-    def build_land_lstm(input_shape, num_td_dense_layers=1,
+    def create_land_lstm(input_shape, num_td_dense_layers=1,
                         num_blstm_layers=2, dense_dims=96) -> (Sequential, str):
         """Building model
 
@@ -31,6 +31,9 @@ class LAND_LSTM_Model:
             localModel (Sequential()): Returns created Land-LSTM model
             modelName (String): Model name with all layer and dimension information
         """
+        if num_td_dense_layers < 0 or num_blstm_layers < 0:
+            raise ValueError("Number of layers must be non-negative")
+
         land_lstm_model = Sequential(name="LandLSTM")
 
         # Flatten at first (providing original feature data)
@@ -61,5 +64,5 @@ class LAND_LSTM_Model:
 if __name__ == "__main__":
     pass
     # model = LAND_LSTM_Model()
-    # lstm, name = model.build_land_lstm(input_shape=(200,200))
+    # lstm, name = model.create_land_lstm(input_shape=(200,200))
     # print(name)
