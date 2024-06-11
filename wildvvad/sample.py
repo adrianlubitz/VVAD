@@ -91,15 +91,35 @@ class Sample:
 
     @staticmethod
     def get_face_landmark_from_sample(image):
+        """
+        Getting predicted face landmarks from a sample's frame image
+
+        Args:
+            image (cv2 img): Image to detect a face and predict landmarks
+        Returns:
+            landmarks (array): array of 68 three-dimensional facial landmarks
+
+        """
         fa = face_alignment.FaceAlignment(face_alignment.LandmarksType.THREE_D,
                                           flip_input=False, device='cpu')
 
         return fa.get_landmarks(image)
 
-    @staticmethod
-    def visualize_3d_landmarks(image, landmarks, landmarks_test):
+    def visualize_3d_landmarks(self, image, landmarks, landmarks_test):
+        """
+        visualizes three-dimensional face landmarks in a matplotlib plot. It shows
+        the image next to the landmarks
+
+        Args:
+            image (cv2 img): Image to analyze
+            landmarks (array): predicted landmarks
+            landmarks_test (bool): if true, no landmarks are provided and will be
+                predicted during execution of this function
+
+        """
+
         if not landmarks_test:
-            preds = get_face_landmark_from_sample(image)[-1]
+            preds = self.get_face_landmark_from_sample(image)[-1]
         else:
             preds = landmarks
         # 2D-Plot
@@ -133,7 +153,7 @@ class Sample:
 
         # 3D-Plot
         ax = fig.add_subplot(1, 2, 2, projection='3d')
-        #surf = ax.scatter(preds[:, 0] * 1.2,
+        # surf = ax.scatter(preds[:, 0] * 1.2,
         #                  preds[:, 1],
         #                  preds[:, 2],
         #                  c='cyan',
@@ -149,7 +169,16 @@ class Sample:
         ax.set_xlim(ax.get_xlim()[::-1])
         plt.show()
 
-    def align_3d_face(self, landmarks_prediction):
+    @staticmethod
+    def align_3d_face(landmarks_prediction):
+        """
+        Aligns 3d face to show frontal face
+
+        Args:
+            landmarks_prediction (array): Three-dimensional face landmarks
+        Returns:
+            aligned_landmarks (array): Rotated and aligned three-dimensional landmarks
+        """
         # convert landmark (x, y, z) - coordinates to a NumPy array
         # shape = utils.shape_to_np(landmarks_prediction)
         # extract the left and right eye (x, y)-coordinates
@@ -184,7 +213,6 @@ class Sample:
         angle_y = np.degrees(np.arctan2(dZ, dX)) - 180
         angle_z = np.degrees(np.arctan2(dY, dX)) - 180
 
-
         # Rotation Matrix 3x3
         R = pcd.get_rotation_matrix_from_xyz((np.deg2rad(angle_x), np.deg2rad(angle_y),
                                               np.deg2rad(angle_z)))
@@ -198,6 +226,18 @@ class Sample:
 
 
 def angle(v1, v2, acute):
+    """
+    Calculate angle between two vectors directly
+
+    Args:
+        v1 (np vector): Coordinates of first vector
+        v2 (np vector): Coordinates of second vector
+        acute (bool): if true, return acute angle, else return bevelled angle
+    Returns:
+        angle (float): acute or bevelled angle between two vectors
+
+
+    """
     # v1 is your first vector
     # v2 is your second vector
     calc_angle = np.arccos(np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2)))
