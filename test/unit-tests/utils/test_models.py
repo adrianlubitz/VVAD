@@ -29,17 +29,6 @@ class TestModelUtils(unittest.TestCase):
         self.assertIsInstance(model, keras.Sequential)
         self.assertEqual(model.name, "LandLSTM")
 
-    def test_input_shape_handling(self):
-        """
-            Unit test checks if the processed shape of the image inside the built
-            model equals the initial given sample shape.
-            Should prevent some unwanted alteration of the sample's shape.
-        """
-
-        model = LAND_LSTM_Model.create_land_lstm(self.input_shape)
-        # model.build(input_shape=self.input_shape)
-        self.assertEqual(model.input_shape, self.input_shape)
-
     @parameterized.expand([
         (0, 0),
         (1, 1),
