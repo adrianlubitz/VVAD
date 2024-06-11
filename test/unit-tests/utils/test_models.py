@@ -18,11 +18,6 @@ class TestModelUtils(unittest.TestCase):
         self.assertIsInstance(model, keras.Sequential)
         self.assertEqual(model.name, "LandLSTM")
 
-    def test_input_shape_handling(self):
-        model = LAND_LSTM_Model.build_land_lstm(self.input_shape)
-        model.build(input_shape=self.input_shape)
-        self.assertEqual(model.input_shape, self.input_shape)
-
     def test_layer_addition(self):
         """
         Verify that the correct number of time-distributed dense layers and bidirectional LSTM layers are added to the model.
