@@ -6,11 +6,16 @@ code/trainingHistories/visualizations/*.png
 .vscode/*
 dataVisualizations/*
 site/*
+env/
 
 *node_modules
 trainingHistories/visualizations
 humanAccuracyTest/mongo-db/*
 humanAccuracyTest/assets/*
+
+htmlcov/*
+.pycrunch-config.yaml
+coverage.xml
 
 
 ## Core latex/pdflatex auxiliary files:
@@ -69,6 +74,9 @@ acs-*.bib
 
 # amsthm
 *.thm
+
+# pycharm
+./idea/
 
 # beamer
 *.nav
