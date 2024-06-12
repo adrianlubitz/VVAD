@@ -25,7 +25,7 @@ class TestTimeUtils(unittest.TestCase):
             time of the given function.
             A tolerance is needed due to the system's performance
         """
-        
+
         logtime_data = {}
         sleep_time = 5
         sleep_x_sec(sleep_time, log_time=logtime_data)
@@ -35,4 +35,4 @@ class TestTimeUtils(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main()
+    unittest.main(warnings='ignore')

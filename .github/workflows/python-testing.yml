@@ -45,8 +45,16 @@ jobs:
       - name: Generate Report
         run: |
           pip install coverage
-          coverage run -m unittest discover -s test.unit-tests.utils -v
-          coverage xml -i --omit="test/*, docs/*,"
+          coverage run -m unittest discover -s test.unit-tests -v
+          echo "Create HTML coverage report for artifacts"
+          coverage html -i --omit="test/*"
+          echo "Create XML coverage report for issue comment"
+          coverage xml -i --omit="test/*, docs/*"
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage-report
+          path: ./htmlcov/*
 
       - name: Get Cover
         uses: orgoro/coverage@v3.1
@@ -54,9 +62,9 @@ jobs:
         with:
           coverageFile: ./coverage.xml
           token: ${{ secrets.GITHUB_TOKEN }}
-          thresholdAll: 0.0
-          thresholdNew: 0.0
-          thresholdModified: 0.0
+          thresholdAll: 0.5
+          thresholdNew: 0.5
+          thresholdModified: 0.5
           passIcon: 🟢
           failIcon: 🔴
 
