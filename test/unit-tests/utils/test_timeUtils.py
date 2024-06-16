@@ -14,7 +14,7 @@ class TestTimeUtils(unittest.TestCase):
         Test the time measurement using a sleep function
     """
 
-    @unittest.expectedFailure
+    #@unittest.expectedFailure
     def test_timeit(self):
         logtime_data = {}
         sleep_time = 5
