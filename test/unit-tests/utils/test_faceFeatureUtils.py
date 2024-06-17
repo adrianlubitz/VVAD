@@ -3,7 +3,12 @@ import numpy as np
 
 import wildvvad.utils.faceFeatureUtils as fu
 
+
 class TestFeatureUtils(unittest.TestCase):
+    """
+    Test all Utility Features
+    """
+
     def test_translate_point_cloud(self):
         """
             Unit test on the linear translation of a 3 dimensional point cloud.
@@ -15,6 +20,8 @@ class TestFeatureUtils(unittest.TestCase):
         translation_vector = np.array([1, 1, 1])
         expected_result = np.array([[0, 1, 2], [3, 4, 5], [6, 7, 8]])
         result = fu.translate_point_cloud(point_cloud, translation_vector)
+
+        # Evaluate
         self.assertTrue(np.array_equal(result, expected_result))
 
     def test_rotate_point_cloud_matrix(self):
