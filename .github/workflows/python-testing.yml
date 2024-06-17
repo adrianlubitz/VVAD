@@ -43,11 +43,11 @@ jobs:
       - name: perform unit tests
         run: |
           # run unittests for data and models
-          python -m unittest discover -s test.unit-tests.utils -v
+          python -m unittest discover -s test.unit-tests -v
       - name: Generate Report
         run: |
           pip install coverage
-          coverage run -m unittest discover -s test.unit-tests.utils -v
+          coverage run -m unittest discover -s test.unit-tests -v
           echo "Create HTML coverage report for artifacts"
           coverage html -i --omit="test/*"
           echo "Create XML coverage report for issue comment"

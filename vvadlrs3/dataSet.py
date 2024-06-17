@@ -85,10 +85,12 @@ class DataSet:
             raise WrongPathException
         files = [pathlib.Path(os.path.join(current_folder, file))
                  for file in files]
+        print(files)
         # get the RefField
         for file in files:
             print("File's name is ", file)
             if file.suffix == ".txt":
+                print(file.suffix)
                 text_file = open(file)
                 # hat anscheinend noch ein return mit drinne
                 ref = text_file.readlines()[2][7:].rstrip()

@@ -190,7 +190,7 @@ class TestFeaturedSample(unittest.TestCase):
 
     @unittest.expectedFailure
     def test_get_data(self):
-        test_sample = sample.FeatureizedSample()
+        test_sample = sample.FeaturedSample()
         test_sample.featureType = "faceImage"
         all_pickles = glob.glob(self.test_data_root + "/sample_pickles/positiveSamples"
                                 + '/**/*.pickle', recursive=True)
@@ -199,8 +199,8 @@ class TestFeaturedSample(unittest.TestCase):
         # transform feature
         dataSet.transform_to_features(
             path=all_pickles[0],
-            shape_model_path="./models/shape_predictor_5_face_landmarks.dat ",
-            shape=(200, 200))
+            shape_model_path="models/shape_predictor_5_face_landmarks.dat ",#"./models/shape_predictor_5_face_landmarks.dat ",
+            input_shape=(200, 200))
 
         test_sample.load(all_pickles[10])
         print(test_sample.get_data(image_size=(200, 200), num_steps=2, grayscale=True,
@@ -208,13 +208,14 @@ class TestFeaturedSample(unittest.TestCase):
 
     @unittest.expectedFailure
     def test_get_dist(self):
-        test_sample = sample.FeatureizedSample()
+        test_sample = sample.FeaturedSample()
         all_pickles = glob.glob(self.test_data_root + "/sample_pickles/positiveSamples"
                                 + '/**/*.pickle', recursive=True)
         test_sample.load(all_pickles[0])
         print(test_sample.get_label())
         print(test_sample.k)
         print(test_sample.featureType)
+
         print(test_sample._get_dist(test_sample.data))
 
     def test_normalize(self):
@@ -261,7 +262,7 @@ class TestFeaturedSample(unittest.TestCase):
             # ToDo check if file is empty
 
     def test_load_existing_pickle(self):
-        # ToDo: Check exception type
+
         sample_path = os.path.join(self.test_data_root, self.sample_pickles,
                                    "testPositiveSample.pickle")
         try:
