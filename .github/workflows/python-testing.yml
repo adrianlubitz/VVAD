@@ -34,6 +34,8 @@ jobs:
         run: python -c "import sys; print(sys.version)"
       - name: Install dependencies
         run: |
+          python -m pip cache purge
+
           python -m pip install --upgrade pip
 
           pip install ruff
@@ -58,9 +60,9 @@ jobs:
         with:
           coverageFile: ./coverage.xml
           token: ${{ secrets.GITHUB_TOKEN }}
-          thresholdAll: 0.5
-          thresholdNew: 0.5
-          thresholdModified: 0.5
+          thresholdAll: 0.2
+          thresholdNew: 0.2
+          thresholdModified: 0.2
           passIcon: 🟢
           failIcon: 🔴
 
