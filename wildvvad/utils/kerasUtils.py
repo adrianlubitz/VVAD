@@ -31,3 +31,14 @@ class kerasUtils:
         )
 
         return X_train, X_test, y_train, y_test
+
+    def saveHistory(history, path):
+        """
+        Save a model's training history as a json file in given path
+
+        Args:
+            history (df) : Pandas dataframe containing training history of a model
+            path (string): path to save the history to
+        """
+        with open(path, mode='w') as histFile:
+            history.to_json(histFile)

@@ -8,10 +8,9 @@ import numpy as np
 import face_alignment
 from matplotlib import pyplot as plt
 from utils import utils
-import vg
+from utils import faceFeatureUtils
 
 import open3d as o3d
-
 
 class Sample:
     def __init__(self):
@@ -105,20 +104,18 @@ class Sample:
 
         return fa.get_landmarks(image)
 
-    def visualize_3d_landmarks(self, image, landmarks, landmarks_test):
+    def visualize_3d_landmarks(self, image, landmarks, landmarks_available):
         """
-        visualizes three-dimensional face landmarks in a matplotlib plot. It shows
-        the image next to the landmarks
+        Method to plot the calculated 3 dimensional landmarks. It will plot the image
+        next to the detected landmarks for a direct comparison.
 
         Args:
-            image (cv2 img): Image to analyze
-            landmarks (array): predicted landmarks
-            landmarks_test (bool): if true, no landmarks are provided and will be
-                predicted during execution of this function
-
+            image (cv2): Image data to compare to calculated landmarks
+            landmarks (numpy array): Calculated landmarks from the provided image
+            landmarks_test (bool): If false: generate landmarks from image within this
+                method
         """
-
-        if not landmarks_test:
+        if not landmarks_available:
             preds = self.get_face_landmark_from_sample(image)[-1]
         else:
             preds = landmarks
@@ -153,12 +150,6 @@ class Sample:
 
         # 3D-Plot
         ax = fig.add_subplot(1, 2, 2, projection='3d')
-        # surf = ax.scatter(preds[:, 0] * 1.2,
-        #                  preds[:, 1],
-        #                  preds[:, 2],
-        #                  c='cyan',
-        #                  alpha=1.0,
-        #                  edgecolor='b')
 
         for pred_type in pred_types.values():
             ax.plot3D(preds[pred_type.slice, 0] * 1.2,
@@ -169,18 +160,16 @@ class Sample:
         ax.set_xlim(ax.get_xlim()[::-1])
         plt.show()
 
-    @staticmethod
-    def align_3d_face(landmarks_prediction):
+    def align_3d_face(self, landmarks_prediction):
         """
-        Aligns 3d face to show frontal face
+        Align 3 dimensional landmarks so that the face is aligned to the x-y-plane
 
         Args:
-            landmarks_prediction (array): Three-dimensional face landmarks
+            landmarks_prediction (numpy array): Calculated landmarks from an image
         Returns:
-            aligned_landmarks (array): Rotated and aligned three-dimensional landmarks
+            aligned_landmarks (numpy array): Altered landmarks with aligned facial
+                orientation
         """
-        # convert landmark (x, y, z) - coordinates to a NumPy array
-        # shape = utils.shape_to_np(landmarks_prediction)
         # extract the left and right eye (x, y)-coordinates
         (l_start, l_end) = utils.FACIAL_LANDMARKS["left_eye"]
         (r_start, r_end) = utils.FACIAL_LANDMARKS["right_eye"]
@@ -188,13 +177,8 @@ class Sample:
         left_eye_pts = landmarks_prediction[l_start:l_end]
         right_eye_pts = landmarks_prediction[r_start:r_end]
 
-        # print(left_eye_pts)
-
         pcd = o3d.geometry.PointCloud()
         pcd.points = o3d.utility.Vector3dVector(landmarks_prediction)
-        # o3d.io.write_point_cloud("./data.ply", pcd)
-
-        # o3d.visualization.draw_geometries([pcd])
 
         # compute center of mass for each eye column wise
         left_eye_center = left_eye_pts.mean(axis=0).astype("float")
@@ -204,8 +188,6 @@ class Sample:
         dX = right_eye_center[0] - left_eye_center[0]
         dY = right_eye_center[1] - left_eye_center[1]
         dZ = right_eye_center[2] - left_eye_center[2]
-        vector_angle = vg.angle(right_eye_center, left_eye_center)
-        print("Angle is", vector_angle)
 
         # First, rotate in X-Z
         # Get Angles
@@ -222,29 +204,24 @@ class Sample:
         center_z = (left_eye_center[2] + right_eye_center[2]) // 2
         pcd = pcd.rotate(R, center=(center_x, center_y, center_z))
 
-        return np.asarray(pcd.points)
+        first_rotation_state = np.asarray(pcd.points)
 
+        # Go into second rotation to align wrongly oriented faces
+        left_eye_pts = first_rotation_state[l_start:l_end]
+        right_eye_pts = first_rotation_state[r_start:r_end]
 
-def angle(v1, v2, acute):
-    """
-    Calculate angle between two vectors directly
+        # compute center of mass for each eye column wise
+        left_eye_center = left_eye_pts.mean(axis=0).astype("float")
+        right_eye_center = right_eye_pts.mean(axis=0).astype("float")
 
-    Args:
-        v1 (np vector): Coordinates of first vector
-        v2 (np vector): Coordinates of second vector
-        acute (bool): if true, return acute angle, else return bevelled angle
-    Returns:
-        angle (float): acute or bevelled angle between two vectors
+        point_cloud = faceFeatureUtils.rotate_face_landmarks(first_rotation_state)
+        aligned_point_cloud = faceFeatureUtils.orient_face_landmarks(point_cloud)
 
+        shifted_point_cloud = utils.shift_to_positive_range(aligned_point_cloud)
 
-    """
-    # v1 is your first vector
-    # v2 is your second vector
-    calc_angle = np.arccos(np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2)))
-    if acute:
-        return calc_angle
-    else:
-        return 2 * np.pi - calc_angle
+        return shifted_point_cloud
+
+# Ressources:
 
 # https://pyimagesearch.com/2017/05/22/face-alignment-with-opencv-and-python/
 # https://stackoverflow.com/questions/47475976/face-alignment-in-video-using-python
