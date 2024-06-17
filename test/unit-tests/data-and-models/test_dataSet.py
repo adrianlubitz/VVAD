@@ -51,7 +51,7 @@ class TestDataSet(unittest.TestCase):
                               path=os.path.join(self.test_data_root,
                                                 "video/noVideoFolder")))
 
-    #@unittest.expectedFailure
+    @unittest.expectedFailure
     def test_get_all_positive_samples(self):
         # Preparation
         self.data_set.download_lrs3_sample_from_youtube(path=os.path.join(
@@ -157,7 +157,7 @@ class TestDataSet(unittest.TestCase):
         print("[getAllPSamples] Folder {} done".format(os.path.join(
             self.test_data_root, self.video_folder_path)))
 
-    #@unittest.expectedFailure
+    @unittest.expectedFailure
     def test_get_positive_samples(self):
         self.data_set.download_lrs3_sample_from_youtube(path=os.path.join(
             self.test_data_root, self.video_folder_path))
