@@ -6,14 +6,17 @@ class kerasUtils:
         pass
 
     @staticmethod
-    def train_test_split(dataset: list) -> (list, list, list, list):
+    def train_test_split(dataset: list, test_size: float = 0.2,
+                         random_state: int = 42) -> (list, list, list, list):
         """
         Uses the dataset to split into x_train, x_test, y_train, and y_test.
 
         Args:
             dataset(list): Dataset as list of dict.
+            test_size(float): fraction of the dataset reserved for testing
+            random_state(int): Random state
         Returns:
-            X_train, X_test, y_train, y_test(list, list, list, list): Splitted dataset
+            X_train, X_test, y_train, y_test(list, list, list, list): Split dataset
         """
 
         X = []
@@ -24,7 +27,7 @@ class kerasUtils:
             print(f"Current ds y is {y}")
 
         X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=0.2, random_state=42
+            X, y, test_size, random_state
         )
 
         return X_train, X_test, y_train, y_test
