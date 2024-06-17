@@ -3,7 +3,6 @@ from keras.layers import Bidirectional, Dense, Flatten
 from keras.layers.normalization import BatchNormalization
 from keras.layers.wrappers import TimeDistributed
 from keras.models import Sequential
-from keras.losses import BinaryCrossentropy
 
 import tensorflow as tf
 
@@ -69,9 +68,9 @@ class LAND_LSTM_Model:
         # Opposite to paper: Use 'sigmoid' activation for binary classification
         land_lstm_model.add(Dense(1, activation='sigmoid'))
 
-        loss = BinaryCrossentropy()
+        #loss = BinaryCrossentropy()
         optimizer = tf.keras.optimizers.Adam(learning_rate=0.001)
-        land_lstm_model.compile(optimizer=optimizer, loss=loss,
+        land_lstm_model.compile(optimizer=optimizer, loss="binary_crossentropy",
                                 metrics=[tf.keras.metrics.BinaryAccuracy(threshold=0.5),
                                          'TrueNegatives',
                                          'TruePositives',
