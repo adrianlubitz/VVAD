@@ -1,7 +1,5 @@
 import numpy as np
 from collections import OrderedDict
-import numpy as np
-from collections import OrderedDict
 
 # For dlib’s 68-point facial landmark detector:
 FACIAL_LANDMARKS_68 = OrderedDict([
