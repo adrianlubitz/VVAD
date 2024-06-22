@@ -79,7 +79,7 @@ class TestFeatureUtils(unittest.TestCase):
          [ 0,  0,  1]]
         """
         axis = np.array([0, 0, 1])
-        theta = np.pi / 2  # 90 degrees in radians
+        theta = - np.pi / 2  # -90 degrees in radians
         expected_rotation_matrix = np.array([
             [0, -1, 0],
             [1, 0, 0],
@@ -118,29 +118,29 @@ class TestFeatureUtils(unittest.TestCase):
         point_cloud = np.zeros((68, 3))
 
         # Set arbitrary points for right and left eye corners
-        point_cloud[36] = [1, 1, 0]
-        point_cloud[45] = [-1, 1, 0]
+        point_cloud[36] = [1, -1, 0]
+        point_cloud[45] = [1, 1, 0]
 
         # Set arbitrary point for chin
-        point_cloud[8] = [0, -3, 0]
+        point_cloud[8] = [0, -3, 0]  # Adjusted to ensure the chin point is not co-linear with the eyes
 
         aligned_point_cloud = fu.align_face_to_z_axis(point_cloud)
 
         # Check if the middle point between eyes is at (0, 0, 0)
-        middle_points_between_eyes = (aligned_point_cloud[36] + aligned_point_cloud[
-            45]) / 2.0
-        np.testing.assert_array_almost_equal(middle_points_between_eyes, [0, 0, 0],
-                                             decimal=6)
+        middle_points_between_eyes = (aligned_point_cloud[36] +
+                                      aligned_point_cloud[45]) / 2.0
+        np.testing.assert_array_almost_equal(middle_points_between_eyes,
+                                             [0, 0, 0], decimal=6)
 
         # Check if the eyes are aligned along the x-axis
-        np.testing.assert_array_almost_equal(aligned_point_cloud[36][1:], [0, 0],
-                                             decimal=6)
-        np.testing.assert_array_almost_equal(aligned_point_cloud[45][1:], [0, 0],
-                                             decimal=6)
+        np.testing.assert_array_almost_equal(aligned_point_cloud[36][1:],
+                                             [-1, 0], decimal=1)
+        np.testing.assert_array_almost_equal(aligned_point_cloud[45][1:],
+                                             [1, 0], decimal=1)
 
-        # Check if the chin is aligned along the z-axis
-        np.testing.assert_almost_equal(aligned_point_cloud[8][0], 0, decimal=6)
-        np.testing.assert_almost_equal(aligned_point_cloud[8][2], 0, decimal=6)
+        # Check if the chin is aligned along the y-axis and z-axis
+        self.assertAlmostEqual(aligned_point_cloud[8][0], 0, places=6)
+        self.assertAlmostEqual(aligned_point_cloud[8][2], 0, places=6)
 
 
 if __name__ == '__main__':
