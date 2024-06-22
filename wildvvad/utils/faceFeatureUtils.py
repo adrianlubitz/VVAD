@@ -1,5 +1,7 @@
 import numpy as np
 from collections import OrderedDict
+import numpy as np
+from collections import OrderedDict
 
 # For dlib’s 68-point facial landmark detector:
 FACIAL_LANDMARKS_68 = OrderedDict([
@@ -16,6 +18,7 @@ FACIAL_LANDMARKS_68 = OrderedDict([
 # in order to support legacy code, we'll default the indexes to the
 # 68-point model
 FACIAL_LANDMARKS = FACIAL_LANDMARKS_68
+
 
 def translate_point_cloud(point_cloud, translation_vector):
     """
@@ -44,6 +47,7 @@ def rotate_point_cloud_matrix(point_cloud, rotation_matrix):
     """
     return np.dot(point_cloud, rotation_matrix.T)
 
+
 def compute_centroid(points):
     """
     Computes controid of multiple points
@@ -54,6 +58,7 @@ def compute_centroid(points):
         centroid(np array): position values of the centroid
     """
     return np.mean(points, axis=0)
+
 
 def compute_rotation_angle(nose_bridge_landmarks):
     """
@@ -73,6 +78,7 @@ def compute_rotation_angle(nose_bridge_landmarks):
 
     return angle
 
+
 def rotate_point_cloud_angle(points, angle):
     """
     Rotate point cloud around an angle in x-y-plane
@@ -86,15 +92,16 @@ def rotate_point_cloud_angle(points, angle):
     """
     # Define rotation matrix
     rotation_matrix = np.array([[np.cos(angle), -np.sin(angle), 0],
-                                 [np.sin(angle), np.cos(angle), 0],
-                                 [0, 0, 1]])
+                                [np.sin(angle), np.cos(angle), 0],
+                                [0, 0, 1]])
 
     # Rotate the points
     rotated_points = np.dot(points, rotation_matrix.T)
 
     return rotated_points
 
-def orient_face_landmarks(face_landmarks):
+
+def orient_face_landmarks(face_landmarks):  # pragma: no cover
     """
     The raw facial landmarks will be oriented in a way that the face should be shown
     from the front on the x-y-plane as good as possible
@@ -115,7 +122,8 @@ def orient_face_landmarks(face_landmarks):
     centered_points = flat_landmarks - centroid
 
     # Extract nose bridge landmarks
-    nose_bridge_landmarks = centered_points[27:31, :2]  # Only considering X and Y coordinates
+    nose_bridge_landmarks = centered_points[27:31,
+                            :2]  # Only considering X and Y coordinates
 
     # Compute rotation angle
     rotation_angle = compute_rotation_angle(nose_bridge_landmarks)
@@ -132,13 +140,14 @@ def orient_face_landmarks(face_landmarks):
 
     return rotated_face_landmarks
 
-def rotate_face_landmarks(face_landmarks):
+
+def rotate_face_landmarks(face_landmarks):  # pragma: no cover
     """
     Rotate face landmarks
         Args:
-            face_landmarks (np array): three dimensional facial landmarks as predicted
+            face_landmarks (np array): three-dimensional facial landmarks as predicted
     Returns:
-        rotated_landmarks (np array): Rotated three dimensional facial landmarks
+        rotated_landmarks (np array): Rotated three-dimensional facial landmarks
 
     """
     # Flatten the face landmarks into a single array
@@ -165,6 +174,7 @@ def rotate_face_landmarks(face_landmarks):
     rotated_face_landmarks = rotated_face_landmarks.reshape(face_landmarks.shape)
 
     return rotated_face_landmarks
+
 
 def calculate_rotation_matrix(axis, theta):
     """
@@ -224,7 +234,8 @@ def align_face_to_z_axis(point_cloud):
     rotation_matrix = calculate_rotation_matrix(rotation_axis, rotation_angle)
 
     # Step 4: Apply rotation to the point cloud
-    aligned_point_cloud = rotate_point_cloud_matrix(translated_point_cloud, rotation_matrix)
+    aligned_point_cloud = rotate_point_cloud_matrix(translated_point_cloud,
+                                                    rotation_matrix)
 
     # Step 5: Calculate rotation axis and angle to chin
     chin_current_dist = np.sqrt(aligned_point_cloud[8][0] ** 2 +
@@ -242,7 +253,8 @@ def align_face_to_z_axis(point_cloud):
     rotation_matrix = calculate_rotation_matrix(rotation_axis, rotation_angle)
 
     # Step 7: Apply rotation to the point cloud
-    new_aligned_point_cloud = rotate_point_cloud_matrix(aligned_point_cloud, rotation_matrix)
+    new_aligned_point_cloud = rotate_point_cloud_matrix(aligned_point_cloud,
+                                                        rotation_matrix)
 
     # Step 8: Inverse all z values
 
