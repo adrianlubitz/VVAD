@@ -1,4 +1,5 @@
 import unittest
+from unittest.mock import Mock
 
 import keras
 
@@ -19,6 +20,11 @@ class TestModelUtils(unittest.TestCase):
         """
 
         self.input_shape = (68, 38, 3)
+        self.num_td_dense_layers = 2
+        self.num_blstm_layers = 3
+        self.hp = Mock()  # Create a mock object for hp
+        # Mock the Int method to return a fixed value
+        self.hp.Int.return_value = 128  # Example fixed value
 
     def test_model_creation(self):
         """

@@ -38,7 +38,7 @@ def SHAPE_PREDICTOR_68_FACE_LANDMARKS():
         'shape_predictor_68_face_landmarks.dat'
     compressed_file = Path(predictor_path.parent /
                            (predictor_path.name + '.bz2'))
-    if not predictor_path.exists():
+    if not predictor_path.exists():  # pragma: no cover
         download_url('https://github.com/davisking/dlib-models/raw/master/'
                      'shape_predictor_68_face_landmarks.dat.bz2',
                      compressed_file)

@@ -13,8 +13,10 @@ class kerasUtils:
 
         Args:
             dataset(list): Dataset as list of dict.
+            test_size(float): fraction of the dataset reserved for testing
+            random_state(int): Random state
         Returns:
-            X_train, X_test, y_train, y_test(list, list, list, list): Splitted dataset
+            X_train, X_test, y_train, y_test(list, list, list, list): Split dataset
         """
 
         X = []

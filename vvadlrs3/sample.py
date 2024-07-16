@@ -147,6 +147,7 @@ class FaceFeatureGenerator:
             feature (depends): Returns feature map depending on given feature Type
                 (faceImage, lipImage, faceFeature, lipFeatures, all)
         """
+        print(self.featureType)
         if self.featureType == "faceImage":
             return resize_and_zero_padding(image, self.shape)
         elif self.featureType == "faceFeatures":
@@ -324,6 +325,7 @@ class FeaturedSample:
                 # TODO: calculate distance to base
                 xdist = pos[0] - base[0]
                 ydist = pos[1] - base[1]
+
                 new_frame[pos_num] = [xdist, ydist]
             out_sample[frame_num] = new_frame
         return out_sample

@@ -91,13 +91,13 @@ class Sample:
     @staticmethod
     def get_face_landmark_from_sample(image):
         """
-        Returns the calculated 68 3d facial landmarks from the provided image
-        
+        Getting predicted face landmarks from a sample's frame image
+
         Args:
-            image (cv2): Image file from current sample's frame
+            image (cv2 img): Image to detect a face and predict landmarks
         Returns:
-            landmarks (numpy array): Array of 3 dimensional facial landmarks, if
-                face was detected
+            landmarks (array): array of 68 three-dimensional facial landmarks
+
         """
         fa = face_alignment.FaceAlignment(face_alignment.LandmarksType.THREE_D,
                                           flip_input=False, device='cpu')
@@ -108,7 +108,7 @@ class Sample:
         """
         Method to plot the calculated 3 dimensional landmarks. It will plot the image
         next to the detected landmarks for a direct comparison.
-        
+
         Args:
             image (cv2): Image data to compare to calculated landmarks
             landmarks (numpy array): Calculated landmarks from the provided image
@@ -163,7 +163,7 @@ class Sample:
     def align_3d_face(self, landmarks_prediction):
         """
         Align 3 dimensional landmarks so that the face is aligned to the x-y-plane
-        
+
         Args:
             landmarks_prediction (numpy array): Calculated landmarks from an image
         Returns:

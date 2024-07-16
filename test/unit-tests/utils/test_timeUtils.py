@@ -18,6 +18,7 @@ class TestTimeUtils(unittest.TestCase):
         Test the time measurement using a sleep function
     """
 
+    #@unittest.expectedFailure
     def test_timeit(self):
         """
             Unit test on the timeit function. We provoke a function that is active

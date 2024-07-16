@@ -85,10 +85,12 @@ class DataSet:
             raise WrongPathException
         files = [pathlib.Path(os.path.join(current_folder, file))
                  for file in files]
+        print(files)
         # get the RefField
         for file in files:
             print("File's name is ", file)
             if file.suffix == ".txt":
+                print(file.suffix)
                 text_file = open(file)
                 # hat anscheinend noch ein return mit drinne
                 ref = text_file.readlines()[2][7:].rstrip()
@@ -163,7 +165,7 @@ class DataSet:
 
     # TODO add option if you want to use whats there or download if necessary
     def get_all_samples(self, feature_type, path=None, dry_run=False,
-                        show_status=False, **kwargs):
+                        show_status=True, **kwargs):
         """
         making all the samples from this folder.
 
@@ -412,7 +414,7 @@ class DataSet:
 
         return pathlib.Path(os.path.abspath(video_path))
 
-    def analyze_negatives(self, path=None, save_to=None):
+    def analyze_negatives(self, path=None, save_to=None): # pragma: no cover
         """
         Showing/Saving statistics over the data set.
 
@@ -458,7 +460,7 @@ class DataSet:
         # return sorted(pauses, key = lambda x: x[0] - x[1])
         return pause_list
 
-    def analyze_positives(self, path, save_to=None):
+    def analyze_positives(self, path, save_to=None): # pragma: no cover
         """
         Showing/Saving statistics over the data set.
 
@@ -793,7 +795,7 @@ class DataSet:
             for current_sample in sample_config_list:
                 yield current_sample
 
-    def analyze(self, path=None, save_to=None):
+    def analyze(self, path=None, save_to=None): # pragma: no cover
         """
         Shows statistics over the samples(values from the config, sum samples,
         negative samples, positive samples, ...)
@@ -1105,7 +1107,7 @@ def transform_to_features(path, shape_model_path=None,
     # TODO:call this in a multiprocessing way.
 
 
-def make_test_set(path, names_path):
+def make_test_set(path, names_path):  # pragma: no cover
     """
     takes the names belonging to the test set from the dataset in path
 
