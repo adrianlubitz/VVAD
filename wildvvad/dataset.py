@@ -87,7 +87,9 @@ class dataSet:
                         pickle.dump(sample_with_label, handle,
                                     protocol=pickle.HIGHEST_PROTOCOL)
 
-    def load_data_set_from_pickles(self, path: str = './utils') -> list:
+    def load_data_set_from_pickles(self, path: str = './utils',
+                                   folders=['speaking_videos',
+                                            'silent_videos']) -> list:
         """
         Load complete dataset from available sample pickle files
 
@@ -95,14 +97,13 @@ class dataSet:
             path (str) : path to folders (pos, neg). Folders name must be
                         'speaking_videos' and
                         'silent_videos'
+            folders (numpy array) : expected folders for positive and negative samples
 
         Returns:
             dataset (list): Returns all data as list of dict (sample, label)
         """
 
         loaded_dataset = []
-
-        folders = ['speaking_videos', 'silent_videos']
 
         subfolders = [f.name for f in os.scandir(path) if f.is_dir()]
 
