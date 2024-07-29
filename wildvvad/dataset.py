@@ -88,8 +88,7 @@ class dataSet:
                                     protocol=pickle.HIGHEST_PROTOCOL)
 
     def load_data_set_from_pickles(self, path: str = './utils',
-                                   folders=['speaking_videos',
-                                            'silent_videos']) -> list:
+                                   folders=['speaking_videos', 'silent_videos']) -> list:
         """
         Load complete dataset from available sample pickle files
 
