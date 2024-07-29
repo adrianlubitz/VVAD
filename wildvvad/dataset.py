@@ -8,24 +8,29 @@ from wildvvad.sample import Sample
 
 
 class dataSet:
+    """
+    This class contains all methods to create or load a dataset suitable for the
+    LandLSTM model.
+    """
+
     def __init__(self):
         self.sample = Sample()
 
-    def create_vector_dataset_from_videos(self, path: str = './utils') -> bool:
+    def create_vector_dataset_from_videos(self, path: str = './utils',
+                                          folders=['speaking_videos', 'silent_videos'],
+                                          ) -> bool:
         """
         Preprocesses the video files and creates data set for the model.
         The data set consist of pickle files (list objects). Each represents one sample.
         Given the path to the video folders
 
         Args:
-            path (str) : path to folders (pos, neg). Folders name must be 'speaking_videos' and
-                        'silent_videos'
-
+            path (str) : path to folders (pos, neg). Folders name must be
+                'speaking_videos' and 'silent_videos'
+            folders (numpy array) : expected folders for positive and negative samples
         Returns:
             ok (bool): Returns result of data creation (True = Ok, False = Error)
         """
-
-        folders = ['speaking_videos', 'silent_videos']
 
         subfolders = [f.name for f in os.scandir(path) if f.is_dir()]
 
