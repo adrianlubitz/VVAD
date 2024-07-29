@@ -20,11 +20,20 @@ class TestModelUtils(unittest.TestCase):
         self.hp.Int.return_value = 128  # Example fixed value
 
     def test_model_creation(self):
+        """
+        Model creation is tested.
+        In this test case, the model is evaluated if it is indeed a Sequential Keras
+        model and if the model name fits the expectation.
+        """
         model = LAND_LSTM_Model.build_land_lstm(self.input_shape)
         self.assertIsInstance(model, keras.Sequential)
         self.assertEqual(model.name, "LandLSTM")
 
     def test_input_shape_handling(self):
+        """
+        Verify that the input shape of the used sample is really processed as is.
+        The input shape of the model itself should match the provided samples' shape.
+        """
         model = LAND_LSTM_Model.build_land_lstm(self.input_shape)
         model.build(input_shape=self.input_shape)
         self.assertEqual(model.input_shape, self.input_shape)
