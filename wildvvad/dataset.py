@@ -99,7 +99,8 @@ class dataSet:
 
     def load_data_set_from_pickles(
             self, path: str = './utils',
-            folders=['speaking_videos', 'silent_videos']) -> list:
+            folders=['speaking_videos', 'silent_videos'],
+            random_seed: int = 42) -> list:
         """
         Load complete dataset from available sample pickle files
 
@@ -107,6 +108,7 @@ class dataSet:
             path (str) : path to folders (pos, neg). Folders name must be
                         'speaking_videos' and 'silent_videos'
             folders (numpy array) : expected folders for positive and negative samples
+            random_seed (int) : value for repeatable random shuffling of data
 
         Returns:
             dataset (list): Returns all data as list of dict (sample, label)
@@ -134,7 +136,7 @@ class dataSet:
 
             print(f"Length of dataset is {len(loaded_dataset)}")
 
-        random.seed(42)
+        random.seed(random_seed)
         random.shuffle(loaded_dataset)
 
         return loaded_dataset

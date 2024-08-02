@@ -2,6 +2,10 @@ from sklearn.model_selection import train_test_split
 
 
 class kerasUtils:
+    """
+    Here all methods can be found that are related to model operations using the
+    keras library.
+    """
     def __init__(self):
         pass
 

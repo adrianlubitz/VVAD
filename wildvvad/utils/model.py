@@ -22,7 +22,7 @@ class LAND_LSTM_Model:
         pass
 
     @staticmethod
-    def build_land_lstm_tuner(hp, input_shape, num_td_dense_layers=1,
+    def build_land_lstm_tuner(hp, input_shape = (38, 68, 3), num_td_dense_layers=1,
                               num_blstm_layers=2) -> Sequential:
         """Building model for a keras tuner. The units of the dense layers are the
             parameters of interest

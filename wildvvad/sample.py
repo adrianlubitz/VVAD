@@ -14,6 +14,11 @@ import open3d as o3d
 
 
 class Sample:
+    """
+    This class contains all methods that are used to load single samples, predict
+    the landmarks and do plotting of the 3-dimensional face features
+    """
+
     def __init__(self):
         pass
 
@@ -28,14 +33,9 @@ class Sample:
             video_samples_objects (): Generator with sample objects
         """
 
-        old_cwd = os.getcwd()
-        os.chdir(folder_path)
         for file in glob.glob("*.pickle"):
-            with open(file, 'rb') as pickle_file:
+            with open(os.path.join(folder_path, file), 'rb') as pickle_file:
                 yield pickle.load(pickle_file)
-
-        # Reset to previous working directory
-        os.chdir(old_cwd)
 
     @staticmethod
     def load_video_sample_from_disk(file_path: str):
@@ -91,13 +91,36 @@ class Sample:
 
     @staticmethod
     def get_face_landmark_from_sample(image):
+        """
+        Extract 3D face landmarks from a given image using the face_alignment library.
+
+        Args:
+            image: The input image from which to extract face landmarks.
+
+        Returns:
+            A list of 3D facial landmarks detected in the image, or None if no face is detected.
+        """
+
         fa = face_alignment.FaceAlignment(face_alignment.LandmarksType.THREE_D,
                                           flip_input=False, device='cpu')
 
         return fa.get_landmarks(image)
 
-    def visualize_3d_landmarks(self, image, landmarks, landmarks_test):
-        if not landmarks_test:
+    def visualize_3d_landmarks(self, image, landmarks, landmarks_available=None):
+        """
+        Visualize the 2D and 3D facial landmarks on the given image.
+
+        Args:
+            image: The input image containing the face.
+            landmarks: The facial landmarks to be visualized.
+            landmarks_available (bool) : If True, use the provided landmarks; if False,
+                detect landmarks from the image.
+
+        Returns:
+            None. Displays the 2D and 3D visualizations of the facial landmarks.
+        """
+
+        if landmarks_available is None:
             preds = self.get_face_landmark_from_sample(image)[-1]
         else:
             preds = landmarks
@@ -130,19 +153,35 @@ class Sample:
 
         ax.axis('off')
 
-        # 3D-Plot
-        ax = fig.add_subplot(1, 2, 2, projection='3d')
+        try:
+            ax = fig.add_subplot(1, 2, 2, projection='3d')
+            for pred_type in pred_types.values():
+                ax.plot3D(preds[pred_type.slice, 0] * 1.2,
+                          preds[pred_type.slice, 1],
+                          preds[pred_type.slice, 2], color='blue')
 
-        for pred_type in pred_types.values():
-            ax.plot3D(preds[pred_type.slice, 0] * 1.2,
-                      preds[pred_type.slice, 1],
-                      preds[pred_type.slice, 2], color='blue')
+            ax.view_init(elev=90., azim=90.)
+            ax.set_xlim(ax.get_xlim()[::-1])
+        except IndexError:
+            print("Landmarks are not 3D. Only 2D plot will be displayed.")
+            ax = fig.add_subplot(1, 2, 2)
+            for pred_type in pred_types.values():
+                ax.plot(preds[pred_type.slice, 0] * 1.2,
+                        preds[pred_type.slice, 1], color='blue')
 
-        ax.view_init(elev=90., azim=90.)
-        ax.set_xlim(ax.get_xlim()[::-1])
         plt.show()
 
     def align_3d_face(self, landmarks_prediction):
+        """
+        Align the 3D facial landmarks based on the eye positions.
+
+        Args:
+            landmarks_prediction: The predicted 3D landmarks of the face.
+
+        Returns:
+            A numpy array of the aligned 3D facial landmarks.
+        """
+
         # convert landmark (x, y, z) - coordinates to a NumPy array
         # shape = utils.shape_to_np(landmarks_prediction)
         # extract the left and right eye (x, y)-coordinates
@@ -200,9 +239,6 @@ def angle(v1, v2, acute):
     else:
         return 2 * np.pi - calc_angle
 
-# https://pyimagesearch.com/2017/05/22/face-alignment-with-opencv-and-python/
-# https://stackoverflow.com/questions/47475976/face-alignment-in-video-using-python
-# https://medium.com/@dsfellow/precise-face-alignment-with-opencv-dlib-e6c8acead262
-
-
-# https://medium.com/@rdadlaney/basics-of-3d-point-cloud-data-manipulation-in-python-95b0a1e1941e
+# Ressources
+# https://github.com/1adrianb/face-alignment
+# https://www.open3d.org/docs/release/index.html
