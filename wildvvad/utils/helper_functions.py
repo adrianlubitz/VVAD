@@ -8,13 +8,15 @@ import csv
 import time
 import numpy as np
 import tensorflow as tf
-keras = tf.keras
+from tensorflow import keras
 
 
 def get_lr_metric(optimizer):
     def lr(y_true, y_pred):
         return optimizer.learning_rate
+
     return lr
+
 
 class CSVLogger(keras.callbacks.Callback):
     """Callback that streams epoch results to a CSV file.
@@ -71,8 +73,8 @@ class CSVLogger(keras.callbacks.Callback):
             if isinstance(k, str):
                 return k
             elif (
-                isinstance(k, collections.abc.Iterable)
-                and not is_zero_dim_ndarray
+                    isinstance(k, collections.abc.Iterable)
+                    and not is_zero_dim_ndarray
             ):
                 return f"\"[{', '.join(map(str, k))}]\""
             else:
