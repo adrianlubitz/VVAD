@@ -40,26 +40,37 @@ class TestModelUtils(unittest.TestCase):
 
     def test_layer_addition(self):
         """
-        Verify that the correct number of time-distributed dense layers and bidirectional LSTM layers are added to the model.
-        Check that the dense and LSTM layers have the expected number of units and activation functions.
+        Verify that the correct number of time-distributed dense layers and
+        bidirectional LSTM layers are added to the model.
+        Check that the dense and LSTM layers have the expected number of units and
+        activation functions.
         """
-        num_td_dense_layers = 2
-        num_blstm_layers = 3
+        td_dense_layers_range = range(1, 4)  # Example range for time-distributed
+        # dense layers
+        blstm_layers_range = range(1, 4)  # Example range for bidirectional LSTM layers
         dense_dims = 96
-        model = LAND_LSTM_Model.build_land_lstm(self.input_shape,
-                                                num_td_dense_layers,
-                                                num_blstm_layers,
-                                                dense_dims)
 
-        # Check time-distributed dense layers
-        td_dense_layers = [layer for layer in model.layers if
-                           isinstance(layer, keras.layers.TimeDistributed)]
-        self.assertEqual(len(td_dense_layers), num_td_dense_layers + 2)
+        for num_td_dense_layers in td_dense_layers_range:
+            for num_blstm_layers in blstm_layers_range:
+                with self.subTest(num_td_dense_layers=num_td_dense_layers,
+                                  num_blstm_layers=num_blstm_layers):
+                    model = LAND_LSTM_Model.build_land_lstm(self.input_shape,
+                                                            num_td_dense_layers,
+                                                            num_blstm_layers,
+                                                            dense_dims)
 
-        # Check bidirectional LSTM layers
-        blstm_layers = [layer for layer in model.layers if
-                        isinstance(layer, keras.layers.Bidirectional)]
-        self.assertEqual(len(blstm_layers), num_blstm_layers)
+                    # Check time-distributed dense layers
+                    td_dense_layers = [layer for layer in model.layers if
+                                       isinstance(layer, keras.layers.TimeDistributed)]
+
+                    # As two additional dense layers are added in the model, the
+                    # specified number must be higher by 2
+                    self.assertEqual(len(td_dense_layers), num_td_dense_layers + 2)
+
+                    # Check bidirectional LSTM layers
+                    blstm_layers = [layer for layer in model.layers if
+                                    isinstance(layer, keras.layers.Bidirectional)]
+                    self.assertEqual(len(blstm_layers), num_blstm_layers)
 
     def test_layer_connections(self):
         """
