@@ -1,28 +1,115 @@
 # import
+import glob
 import os
+import pickle
+import random
 
+import h5py
 import keras
-from kerastuner.tuners import RandomSearch
 import numpy as np
 import tensorflow as tf
+from kerastuner.tuners import RandomSearch
+from sklearn.model_selection import train_test_split
 
 from wildvvad.utils import helper_functions
 from wildvvad.utils.model import LAND_LSTM_Model
 
+
 # Step 1: Define your model architecture
-# From import
 
 # Step 2: Get and process your data
-y_train = np.array([0, 0, 0, 1, 1, 1])
-x_train = np.array([0, 0, 0, 1, 1, 1])
-x_test = np.array([0, 0, 0, 1, 1, 1])
-y_test = np.array([0, 0, 0, 1, 1, 1])
-x_val = np.array([0, 0, 0, 1, 1, 1])
-y_val = np.array([0, 0, 0, 1, 1, 1])
+# The data should have the following structure:
+# Binary data in a 1 dimensional numpy array
+def _normalize(arr):
+    """ Normalizes the features of the array to [-1, 1].
+
+        Args:
+            arr (numpy array): array with features to normalize
+
+        Returns:
+            arr_norm (numpy array): numpy array with features normalized to [-1, 1]
+    """
+    arrMax = np.max(arr)
+    arrMin = np.min(arr)
+    absMax = np.max([np.abs(arrMax), np.abs(arrMin)])
+    return arr / absMax
+
+
+def shift_to_positive_range(p_cloud):
+    # Find the minimum values along each axis
+    min_values = np.min(p_cloud, axis=0)
+
+    # Subtract the minimum values from all points
+    shifted_pcloud = p_cloud - min_values
+
+    return shifted_pcloud
+
+
+# Define constants
+FOLDERS = ['negatives_rotated', 'positives_rotated']
+SAMPLE_LIMIT = 100
+SAMPLE_LENGTH = 38
+
+# Initialize lists
+sample_paths, x_train, y_train = [], [], []
+
+# Load and process samples
+for folder in FOLDERS:
+    folder_path = os.path.join(".", "faceFeatures", folder, "*.pickle")
+    for i, f in enumerate(glob.glob(folder_path)):
+        if i >= SAMPLE_LIMIT:
+            break
+        sample_paths.append(os.path.join(os.getcwd(), f))
+        with open(f, 'rb') as file:
+            try:
+                sample_file = pickle.load(file)
+                if len(sample_file) >= SAMPLE_LENGTH:
+                    x_train.append(sample_file)
+                    y_train.append(0 if folder == "negatives_rotated" else 1)
+            except Exception as e:
+                print(f"Error loading {f}: {e}")
+
+
+# Normalize and resize samples
+def normalize_and_resize(samples):
+    normalized_resized_samples = []
+    for sample in samples:
+        sample = np.asarray(sample[:SAMPLE_LENGTH])
+        for cloud in sample:
+            # max_y = np.max(shift_to_positive_range(cloud)[:, 1])
+            cloud = _normalize(cloud)
+        normalized_resized_samples.append(sample)
+    return normalized_resized_samples
+
+
+x_train_normalized_resized = normalize_and_resize(x_train)
+
+# Shuffle and split data
+data = list(zip(x_train_normalized_resized, y_train))
+random.shuffle(data)
+x_data, y_data = zip(*data)
+x_data, y_data = list(x_data), list(y_data)
+
+x_train, x_temp, y_train, y_temp = train_test_split(x_data, y_data, test_size=0.2,
+                                                    random_state=42)
+x_test, x_val, y_test, y_val = train_test_split(x_temp, y_temp, test_size=0.5,
+                                                random_state=42)
+
+# Save test data to HDF5
+with h5py.File('wildvvad_testdata_wildvvadmodel_V11_rotated.h5', 'w') as hf:
+    hf.create_dataset('x_test', data=x_test)
+    hf.create_dataset('y_test', data=y_test)
+
+# Convert lists to numpy arrays
+x_train, y_train = np.asarray(x_train), np.asarray(y_train)
+x_test, y_test = np.asarray(x_test), np.asarray(y_test)
+x_val, y_val = np.asarray(x_val), np.asarray(y_val)
 
 # Step 3: Define the search space for hyperparameters
+# In this model, only the configurable dense layers will be tuned
+
 tuner = RandomSearch(
-    LAND_LSTM_Model.build_land_lstm_tuner,
+    lambda hp: LAND_LSTM_Model.build_land_lstm(hp=hp, input_shape=(38, 68, 3)),
     objective='val_binary_accuracy',
     max_trials=10,  # Number of hyperparameter combinations to try
     executions_per_trial=1,  # Number of models to train per trial

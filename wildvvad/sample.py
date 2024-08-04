@@ -13,6 +13,11 @@ from utils import faceFeatureUtils
 import open3d as o3d
 
 class Sample:
+    """
+    This class contains all methods that are used to load single samples, predict
+    the landmarks and do plotting of the 3-dimensional face features
+    """
+
     def __init__(self):
         pass
 
@@ -22,19 +27,14 @@ class Sample:
         Loads all sample objects (pickle files) from a folder
 
         Args:
-            folder_path (str): path to sample file
+            folder_path (str): path to sample files
         Returns:
             video_samples_objects (): Generator with sample objects
         """
 
-        old_cwd = os.getcwd()
-        os.chdir(folder_path)
         for file in glob.glob("*.pickle"):
-            with open(file, 'rb') as pickle_file:
+            with open(os.path.join(folder_path, file), 'rb') as pickle_file:
                 yield pickle.load(pickle_file)
-
-        # Reset to previous working directory
-        os.chdir(old_cwd)
 
     @staticmethod
     def load_video_sample_from_disk(file_path: str):
@@ -148,16 +148,22 @@ class Sample:
 
         ax.axis('off')
 
-        # 3D-Plot
-        ax = fig.add_subplot(1, 2, 2, projection='3d')
+        try:
+            ax = fig.add_subplot(1, 2, 2, projection='3d')
+            for pred_type in pred_types.values():
+                ax.plot3D(preds[pred_type.slice, 0] * 1.2,
+                          preds[pred_type.slice, 1],
+                          preds[pred_type.slice, 2], color='blue')
 
-        for pred_type in pred_types.values():
-            ax.plot3D(preds[pred_type.slice, 0] * 1.2,
-                      preds[pred_type.slice, 1],
-                      preds[pred_type.slice, 2], color='blue')
+            ax.view_init(elev=90., azim=90.)
+            ax.set_xlim(ax.get_xlim()[::-1])
+        except IndexError:
+            print("Landmarks are not 3D. Only 2D plot will be displayed.")
+            ax = fig.add_subplot(1, 2, 2)
+            for pred_type in pred_types.values():
+                ax.plot(preds[pred_type.slice, 0] * 1.2,
+                        preds[pred_type.slice, 1], color='blue')
 
-        ax.view_init(elev=90., azim=90.)
-        ax.set_xlim(ax.get_xlim()[::-1])
         plt.show()
 
     def align_3d_face(self, landmarks_prediction):
@@ -223,9 +229,27 @@ class Sample:
 
 # Ressources:
 
-# https://pyimagesearch.com/2017/05/22/face-alignment-with-opencv-and-python/
-# https://stackoverflow.com/questions/47475976/face-alignment-in-video-using-python
-# https://medium.com/@dsfellow/precise-face-alignment-with-opencv-dlib-e6c8acead262
+def angle(v1, v2, acute):
+    """
+    Compute the angle between two vectors v1 and v2. The parameter "acute" specifies
+    if the acute angle should be returned or the opposite one.
 
+    Args:
+        v1 (vector): 1D vector with same amount of coordinates than v2
+        v2 (vector): 1D vector with same amount of coordinates than v1
+        acute (bool): if TRUE: return acute angle, otherwise opposite
 
-# https://medium.com/@rdadlaney/basics-of-3d-point-cloud-data-manipulation-in-python-95b0a1e1941e
+    Returns:
+        angle (float): Calculated angle between the vectors v1 and v2
+    """
+    # v1 is your first vector
+    # v2 is your second vector
+    calc_angle = np.arccos(np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2)))
+    if acute:
+        return calc_angle
+    else:
+        return 2 * np.pi - calc_angle
+
+# Ressources
+# https://github.com/1adrianb/face-alignment
+# https://www.open3d.org/docs/release/index.html

@@ -31,7 +31,7 @@ class FaceTracker:
             internal_rect_oversize (float): the percentage of which the initial
             relative (bool): relative or absolute pixel values
         """
-        if type(init_pos) == dlib.rectangle or type(init_pos) == dlib.drectangle:
+        if type(init_pos) is dlib.rectangle or type(init_pos) is dlib.drectangle:
             self.init_pos = (init_pos.tl_corner().x, init_pos.tl_corner(
             ).y, init_pos.width(), init_pos.height())
         else:

@@ -1,27 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="2fce5029-60e4-4d25-83be-8f2c17ce1663" name="Changes" comment="merge into">
+    <list default="true" id="2fce5029-60e4-4d25-83be-8f2c17ce1663" name="Changes" comment="Merge develop_phase1 into">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/Ressources.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/utils/wild-face-feature-utils.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/utils/wild-helper-functions-utils.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/utils/wild-model-utils.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/docs/utils/wild-util-utils.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/unit-tests/utils/test_faceFeatureUtils.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildvvad/example_implementation.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildvvad/model.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/wildvvad/utils/faceFeatureUtils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.github/workflows/python-testing.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/python-testing.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/experiments/analyze_videos.py" beforeDir="false" afterPath="$PROJECT_DIR$/experiments/analyze_videos.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/experiments/calcAccuracy.py" beforeDir="false" afterPath="$PROJECT_DIR$/experiments/calcAccuracy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liveDemo/liveCam.py" beforeDir="false" afterPath="$PROJECT_DIR$/liveDemo/liveCam.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/liveDemo/visualize_samples.py" beforeDir="false" afterPath="$PROJECT_DIR$/liveDemo/visualize_samples.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/unit-tests/helper-fctns/test_convert_samples.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit-tests/helper-fctns/test_convert_samples.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vvadlrs3/convert_samples.py" beforeDir="false" afterPath="$PROJECT_DIR$/vvadlrs3/convert_samples.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/wildvvad-models.md" beforeDir="false" afterPath="$PROJECT_DIR$/docs/wildvvad-models.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mkdocs.yml" beforeDir="false" afterPath="$PROJECT_DIR$/mkdocs.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit-tests/data-and-models/test_dataSet.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit-tests/data-and-models/test_dataSet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit-tests/data-and-models/test_sample.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit-tests/data-and-models/test_sample.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit-tests/utils/_downloadUtils.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit-tests/utils/test_downloadUtils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit-tests/utils/_imageUtils.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit-tests/utils/test_imageUtils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit-tests/utils/_videoUtils.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit-tests/utils/test_videoUtils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit-tests/utils/no_test_plotUtils.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit-tests/utils/test_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit-tests/utils/test_models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/unit-tests/utils/test_timeUtils.py" beforeDir="false" afterPath="$PROJECT_DIR$/test/unit-tests/utils/test_timeUtils.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vvadlrs3/dataSet.py" beforeDir="false" afterPath="$PROJECT_DIR$/vvadlrs3/dataSet.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vvadlrs3/dlibmodels.py" beforeDir="false" afterPath="$PROJECT_DIR$/vvadlrs3/dlibmodels.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vvadlrs3/onCluster.py" beforeDir="false" afterPath="$PROJECT_DIR$/vvadlrs3/onCluster.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vvadlrs3/pretrained_models.py" beforeDir="false" afterPath="$PROJECT_DIR$/vvadlrs3/pretrained_models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/vvadlrs3/sample.py" beforeDir="false" afterPath="$PROJECT_DIR$/vvadlrs3/sample.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vvadlrs3/utils/downloadUtils.py" beforeDir="false" afterPath="$PROJECT_DIR$/vvadlrs3/utils/downloadUtils.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/vvadlrs3/utils/timeUtils.py" beforeDir="false" afterPath="$PROJECT_DIR$/vvadlrs3/utils/timeUtils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildvvad/assets/Example_Landmark_Detection.png" beforeDir="false" afterPath="$PROJECT_DIR$/wildvvad/assets/Example_Landmark_Detection.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildvvad/dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/wildvvad/dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildvvad/example_code/visualization.py" beforeDir="false" afterPath="$PROJECT_DIR$/wildvvad/example_code/visualization.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildvvad/sample.py" beforeDir="false" afterPath="$PROJECT_DIR$/wildvvad/sample.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildvvad/tests.py" beforeDir="false" afterPath="$PROJECT_DIR$/wildvvad/tests.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildvvad/utils/downloadUtils.py" beforeDir="false" afterPath="$PROJECT_DIR$/wildvvad/utils/downloadUtils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildvvad/utils/helper_functions.py" beforeDir="false" afterPath="$PROJECT_DIR$/wildvvad/utils/helper_functions.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildvvad/utils/kerasUtils.py" beforeDir="false" afterPath="$PROJECT_DIR$/wildvvad/utils/kerasUtils.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildvvad/utils/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/wildvvad/utils/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wildvvad/utils/utils.py" beforeDir="false" afterPath="$PROJECT_DIR$/wildvvad/utils/utils.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
@@ -31,18 +65,33 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2WGUCqhgld0HevKy4TS0DNhT5gf" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">
-    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
-    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="restartRequiresConfirmation" value="false" />
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "Merging final/best-models-and-checkpoints",
+    "last_opened_file_path": "C:/VVAD_copy/VVAD/wildvvad/example_code"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\VVAD_copy\VVAD\wildvvad\example_code" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\VVAD_copy\VVAD\wildvvad\example_code" />
+    </key>
   </component>
   <component name="RunManager" selected="Python tests.Python tests for test_dataSet.TestTransformations.test_transform_points_to_numpy">
     <configuration name="Python tests for test_dataSet.TestDataSet.test_grab_from_video" type="tests" factoryName="Autodetect" temporary="true" nameIsGenerated="true">
@@ -162,7 +211,47 @@
       <option name="project" value="LOCAL" />
       <updated>1701086471724</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="feature: check on mp4 data type and existing pickle files on loading wildVVAD data">
+      <option name="closed" value="true" />
+      <created>1722628009638</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1722628009638</updated>
+    </task>
+    <task id="LOCAL-00005" summary="test: Test model layer addition with input values in ranges instead fixed values only">
+      <option name="closed" value="true" />
+      <created>1722628354977</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1722628354977</updated>
+    </task>
+    <task id="LOCAL-00006" summary="fix: added missing docstrings and some extensions in exception handling">
+      <option name="closed" value="true" />
+      <created>1722632412964</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1722632412964</updated>
+    </task>
+    <task id="LOCAL-00007" summary="doc: added doc string">
+      <option name="closed" value="true" />
+      <created>1722632548132</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1722632548132</updated>
+    </task>
+    <task id="LOCAL-00008" summary="feat: combine tuner and normal model">
+      <option name="closed" value="true" />
+      <created>1722763218815</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1722763218815</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -175,13 +264,18 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="fix: use mp4 as video format" />
     <MESSAGE value="feat: adapt yaml pipeline file" />
     <MESSAGE value="merge into" />
-    <option name="LAST_COMMIT_MESSAGE" value="merge into" />
+    <MESSAGE value="feature: check on mp4 data type and existing pickle files on loading wildVVAD data" />
+    <MESSAGE value="test: Test model layer addition with input values in ranges instead fixed values only" />
+    <MESSAGE value="fix: added missing docstrings and some extensions in exception handling" />
+    <MESSAGE value="doc: added doc string" />
+    <MESSAGE value="feat: combine tuner and normal model" />
+    <MESSAGE value="Merge develop_phase1 into" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge develop_phase1 into" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

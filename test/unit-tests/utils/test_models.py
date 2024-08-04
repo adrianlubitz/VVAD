@@ -28,9 +28,10 @@ class TestModelUtils(unittest.TestCase):
 
     def test_model_creation(self):
         """
-            Unit test on successful creation of the given model
+        Model creation is tested.
+        In this test case, the model is evaluated if it is indeed a Sequential Keras
+        model and if the model name fits the expectation.
         """
-
         model = LAND_LSTM_Model.create_land_lstm(self.input_shape)
         self.assertIsInstance(model, keras.Sequential)
         self.assertEqual(model.name, "LandLSTM")

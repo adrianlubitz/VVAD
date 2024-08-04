@@ -29,7 +29,49 @@ class CSVLogger(keras.callbacks.Callback):
     Supports all values that can be represented as a string,
     including 1D iterables such as `np.ndarray`.
 
-    Example:
+    This is a custom implementation which is simiar to keras CSVLogger. However,
+    the following changes are applied:
+
+        Handling of Log Keys:
+
+            Custom Implementation: Determines keys at the end of the first epoch,
+            including keys starting with val_ if not present initially.
+
+            Keras CSVLogger: Assumes keys are consistent across epochs and does not
+            explicitly check for val_ keys after the first epoch.
+
+        Handling of Iterable Values:
+
+            Custom Implementation: Converts 1D iterables to strings in the format
+            "[value1, value2, ...]".
+            Keras CSVLogger: Converts lists and arrays to strings without adding
+            additional formatting.
+
+        Duration Logging:
+
+            Custom Implementation: Adds a duration key to log the time taken for each
+            epoch.
+            Keras CSVLogger: Does not log the duration by default.
+
+        Header Handling:
+
+            Custom Implementation: Checks if a header should be appended based on
+            whether the file exists and has content.
+            Keras CSVLogger: Similar header handling but with less explicit checking.
+
+        File Handling:
+
+            Custom Implementation: Uses tf.io.gfile.GFile for file operations, which
+            supports various filesystems and is TensorFlow-compatible.
+            Keras CSVLogger: Uses standard Python file operations with open.
+
+        Exception Handling:
+
+            Custom Implementation: Provides custom handling for zero-dimensional numpy
+            arrays.
+            Keras CSVLogger: Assumes all values can be stringified directly and does
+            not have special handling for edge cases.
+
 
     ```python
     csv_logger = CSVLogger('training.log')

@@ -40,7 +40,7 @@ class TestDataSet(unittest.TestCase):
 
     def test_download_LRS3_sample_from_yt(self):
         self.data_set.download_lrs3_sample_from_youtube(path=os.path.join(
-            self.test_data_root, self.video_folder_path))
+            self.test_data_root, self.video_folder_path_2))
         self.assertTrue(os.path.exists(os.path.join(self.test_data_root,
                                                     self.video_file_path)))
         os.remove(os.path.join(self.test_data_root, self.video_file_path))

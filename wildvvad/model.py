@@ -18,7 +18,7 @@ class LAND_LSTM_Model:
 
     @staticmethod
     def create_land_lstm(input_shape, num_td_dense_layers=1,
-                        num_blstm_layers=2, dense_dims=96) -> (Sequential, str):
+                         num_blstm_layers=2, dense_dims=96) -> (Sequential, str):
         """Building model
 
         Args:
