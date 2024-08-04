@@ -32,7 +32,7 @@ class TestModelUtils(unittest.TestCase):
         In this test case, the model is evaluated if it is indeed a Sequential Keras
         model and if the model name fits the expectation.
         """
-        model = LAND_LSTM_Model.build_land_lstm(self.input_shape)
+        model = LAND_LSTM_Model.create_land_lstm(self.input_shape)
         self.assertIsInstance(model, keras.Sequential)
         self.assertEqual(model.name, "LandLSTM")
 

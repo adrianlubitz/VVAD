@@ -19,7 +19,7 @@ from vvadlrs3 import dataSet as dSet
 class TestDataSet(unittest.TestCase):
 
     def setUp(self):
-        self.test_data_root = "test/unit-tests/data-and-models/testData"
+        self.test_data_root = "./testData"#"test/unit-tests/data-and-models/testData"
         self.videos_path = "video"
         self.video_folder_path = "video/00j9bKdiOjk"
         self.video_folder_path_2 = "video/0Amg53UuRqE"
@@ -40,7 +40,7 @@ class TestDataSet(unittest.TestCase):
 
     def test_download_LRS3_sample_from_yt(self):
         self.data_set.download_lrs3_sample_from_youtube(path=os.path.join(
-            self.test_data_root, self.video_folder_path))
+            self.test_data_root, self.video_folder_path_2))
         self.assertTrue(os.path.exists(os.path.join(self.test_data_root,
                                                     self.video_file_path)))
         os.remove(os.path.join(self.test_data_root, self.video_file_path))
