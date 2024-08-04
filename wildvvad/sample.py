@@ -231,6 +231,18 @@ class Sample:
 
 
 def angle(v1, v2, acute):
+    """
+    Compute the angle between two vectors v1 and v2. The parameter "acute" specifies
+    if the acute angle should be returned or the opposite one.
+
+    Args:
+        v1 (vector): 1D vector with same amount of coordinates than v2
+        v2 (vector): 1D vector with same amount of coordinates than v1
+        acute (bool): if TRUE: return acute angle, otherwise opposite
+
+    Returns:
+        angle (float): Calculated angle between the vectors v1 and v2
+    """
     # v1 is your first vector
     # v2 is your second vector
     calc_angle = np.arccos(np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2)))

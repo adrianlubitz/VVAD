@@ -110,7 +110,7 @@ x_val, y_val = np.asarray(x_val), np.asarray(y_val)
 # In this model, only the configurable dense layers will be tuned
 
 tuner = RandomSearch(
-    LAND_LSTM_Model.build_land_lstm_tuner,
+    lambda hp: LAND_LSTM_Model.build_land_lstm(hp=hp, input_shape=(38, 68, 3)),
     objective='val_binary_accuracy',
     max_trials=10,  # Number of hyperparameter combinations to try
     executions_per_trial=1,  # Number of models to train per trial
