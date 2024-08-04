@@ -1,11 +1,8 @@
-from typing import Tuple, Optional
-
-import tensorflow as tf
 from keras.layers import Bidirectional, Dense, Flatten
 from keras.layers.normalization import BatchNormalization
 from keras.layers.wrappers import TimeDistributed
-from keras.losses import BinaryCrossentropy
 from keras.models import Sequential
+from tf import keras
 
 
 class LAND_LSTM_Model:

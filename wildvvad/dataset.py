@@ -96,7 +96,7 @@ class dataSet:
 
                     # save as pickle file
                     save_path = os.path.join(save_to, filename)
-                    with open(pickle_filename, 'wb') as handle:
+                    with open(save_path, 'wb') as handle:
                         pickle.dump(sample_with_label, handle,
                                     protocol=pickle.HIGHEST_PROTOCOL)
 

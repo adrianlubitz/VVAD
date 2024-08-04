@@ -6,11 +6,10 @@ import random
 
 import h5py
 import keras
-from kerastuner.tuners import RandomSearch
 import numpy as np
 import tensorflow as tf
+from kerastuner.tuners import RandomSearch
 from sklearn.model_selection import train_test_split
-from tensorflow import kerasUtils
 
 from wildvvad.utils import helper_functions
 from wildvvad.utils.model import LAND_LSTM_Model
@@ -77,7 +76,7 @@ def normalize_and_resize(samples):
     for sample in samples:
         sample = np.asarray(sample[:SAMPLE_LENGTH])
         for cloud in sample:
-            max_y = np.max(shift_to_positive_range(cloud)[:, 1])
+            # max_y = np.max(shift_to_positive_range(cloud)[:, 1])
             cloud = _normalize(cloud)
         normalized_resized_samples.append(sample)
     return normalized_resized_samples
