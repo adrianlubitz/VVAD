@@ -14,6 +14,9 @@ class dataSet:
     """
 
     def __init__(self):
+        """
+        Class initialization: Init sample methods
+        """
         self.sample = Sample()
 
     def create_vector_dataset_from_videos(self, path: str = './utils',

@@ -2,12 +2,16 @@ import time
 import unittest
 
 import vvadlrs3.utils.timeUtils as tUtils
-
-
 @tUtils.timeit
 def sleep_x_sec(sleep_time, **kwargs):
-    time.sleep(sleep_time)
+    """
+        Dedicated sleep timer to delay an operation in a time measured task
 
+        Args:
+            sleep_time (int): sleeping time in seconds
+    """
+
+    time.sleep(sleep_time)
 
 class TestTimeUtils(unittest.TestCase):
     """
@@ -16,6 +20,13 @@ class TestTimeUtils(unittest.TestCase):
 
     #@unittest.expectedFailure
     def test_timeit(self):
+        """
+            Unit test on the timeit function. We provoke a function that is active
+            for 5000 milliseconds. timeit should log this time as the expected execution
+            time of the given function.
+            A tolerance is needed due to the system's performance
+        """
+
         logtime_data = {}
         sleep_time = 5
         sleep_x_sec(sleep_time, log_time=logtime_data)
